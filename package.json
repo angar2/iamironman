@@ -1,0 +1,23 @@
+{
+  "name": "iamironman",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --mode production",
+    "start": "webpack serve --mode development"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "phaser": "^3.80.1",
+    "typescript": "^5.5.4"
+  },
+  "devDependencies": {
+    "html-webpack-plugin": "^5.6.0",
+    "ts-loader": "^9.5.1",
+    "webpack": "^5.93.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.0.4"
+  }
+}
