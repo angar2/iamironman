@@ -1,21 +1,21 @@
 import Phaser from 'phaser';
-import StateManager from './managers/stateManager';
-import CollisionHandler from './handlers/collisionHandler';
-import TimerHandler from './handlers/timerHandler';
-import GroupManager from './managers/groupManager';
-import BackgroundManager from './managers/displays/backgroundManager';
-import ScoreManager from './managers/displays/scoreManager';
-import GaugeManager from './managers/displays/gaugeManager';
-import IronmanManager from './managers/charaters/ironmanManager';
-import HealthManager from './managers/displays/healthManager';
-import RepulsorManager from './managers/weapons/repulsorManager';
-import BeamManager from './managers/weapons/beamManager';
-import UltronRepulsorManager from './managers/weapons/ultronRepulsorManager';
-import EnemyManager from './managers/charaters/enemyManager';
-import IronmanControlManager from './managers/charaters/ironmanControlManager';
-import KeyHandler from './handlers/keyHandler';
-import { scoreConfig } from './config';
-import { ImageTexture } from './enum';
+import StateManager from '../managers/stateManager';
+import CollisionHandler from '../handlers/collisionHandler';
+import TimerHandler from '../handlers/timerHandler';
+import GroupManager from '../managers/groupManager';
+import BackgroundManager from '../managers/displays/backgroundManager';
+import ScoreManager from '../managers/displays/scoreManager';
+import GaugeManager from '../managers/displays/gaugeManager';
+import IronmanManager from '../managers/charaters/ironmanManager';
+import HealthManager from '../managers/displays/healthManager';
+import RepulsorManager from '../managers/weapons/repulsorManager';
+import BeamManager from '../managers/weapons/beamManager';
+import UltronRepulsorManager from '../managers/weapons/ultronRepulsorManager';
+import EnemyManager from '../managers/charaters/enemyManager';
+import IronmanControlManager from '../managers/charaters/ironmanControlManager';
+import KeyHandler from '../handlers/keyHandler';
+import { scoreConfig } from '../config';
+import { ImageTexture } from '../enum';
 
 export default class MainScene extends Phaser.Scene {
   private stateManager!: StateManager;
