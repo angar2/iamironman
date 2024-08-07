@@ -13,6 +13,10 @@ const config: Phaser.Types.Core.GameConfig = {
       gravity: { x: 0, y: 0 },
     },
   },
+  fps: {
+    target: 60, // 기준
+    min: 30, // 최소
+  },
   input: {
     keyboard: true,
   },
