@@ -61,8 +61,14 @@ export default class IronmanManager {
           this.ironman.setTexture(ImageTexture.IRONMAN_BEAM);
           break;
       }
+
+      // 아이언맨 사이즈 재설정
       this.ironman.setSize(this.ironman.frame.width, this.ironman.frame.height);
+
+      // 아이언맨 모드 업데이트
       this.ironman.mode = mode;
+
+      // 충격 감지 센서 생성
       this.ironman.createCollisionZones();
     }
   }

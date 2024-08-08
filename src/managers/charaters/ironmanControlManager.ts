@@ -95,7 +95,10 @@ export default class IronmanControlManager {
       ? this.ironman.setY(this.ironman.y + speed)
       : this.ironman.setX(this.ironman.x + speed);
 
+    // 이동 제한 범위 설정
     this.setMovementBounds();
+
+    // 아이언맨 충돌 감지 센서 이동
     this.updateCollisionZones(isUpdown, speed);
   }
 
@@ -109,7 +112,7 @@ export default class IronmanControlManager {
     this.ironman.collisionZones.children.entries.forEach((child, index) => {
       const zone = child as Phaser.Physics.Arcade.Image;
 
-      // 현재 충돌 센서 위치 업데이트
+      // 충돌 센서 위치 업데이트
       zone.setX(
         this.ironman.x + this.ironman.displayWidth * (elements[index].x / 100)
       );
