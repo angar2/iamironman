@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 import { scaleConfig } from '../../config';
 
-export default class Health extends Phaser.GameObjects.Sprite {
+export default class Health extends Phaser.GameObjects.Image {
   constructor(scene: Phaser.Scene, x: number, y: number, texture: string) {
     super(scene, x, y, texture);
 

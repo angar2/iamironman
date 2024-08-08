@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 import { healthConfig, scaleConfig, speedConfig } from '../../config';
 
-export default class Ironman extends Phaser.Physics.Arcade.Sprite {
+export default class Ironman extends Phaser.Physics.Arcade.Image {
   private speed: number;
   private health: number;
 

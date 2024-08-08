@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 import { WeaponType } from '../../enum';
 import { damageConfig, scaleConfig } from '../../config';
 
-export default class Beam extends Phaser.Physics.Arcade.Sprite {
+export default class Beam extends Phaser.Physics.Arcade.Image {
   private _type: WeaponType;
   private damage: number;
 

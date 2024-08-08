@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 import { damageConfig, scaleConfig, speedConfig } from '../../config';
 import { WeaponType } from '../../enum';
 
-export default class Repulsor extends Phaser.Physics.Arcade.Sprite {
+export default class Repulsor extends Phaser.Physics.Arcade.Image {
   private speed: number;
   private _type: WeaponType;
   private damage: number;

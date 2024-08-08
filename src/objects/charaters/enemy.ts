@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 import { EnemyType } from '../../enum';
 import { healthConfig, scaleConfig, speedConfig } from '../../config';
 
-export default class Enemy extends Phaser.Physics.Arcade.Sprite {
+export default class Enemy extends Phaser.Physics.Arcade.Image {
   private speed: number;
   private _type: EnemyType;
   private health: number;
