@@ -44,23 +44,15 @@ export default class IronmanManager {
   // 아이언맨 모드 변경
   private setTexture(mode: IronmanMode) {
     if (this.ironman) {
-      switch (mode) {
-        case IronmanMode.NORMAL:
-          this.ironman.setTexture(ImageTexture.IRONMAN_NORMAL);
-          break;
-        case IronmanMode.REPULSOR:
-          this.ironman.setTexture(ImageTexture.IRONMAN_REPULSOR);
-          break;
-        case IronmanMode.HIT:
-          this.ironman.setTexture(ImageTexture.IRONMAN_HIT);
-          break;
-        case IronmanMode.GATHER:
-          this.ironman.setTexture(ImageTexture.IRONMAN_GATHER);
-          break;
-        case IronmanMode.BEAM:
-          this.ironman.setTexture(ImageTexture.IRONMAN_BEAM);
-          break;
-      }
+      const textures = {
+        [IronmanMode.NORMAL]: ImageTexture.IRONMAN_NORMAL,
+        [IronmanMode.REPULSOR]: ImageTexture.IRONMAN_REPULSOR,
+        [IronmanMode.HIT]: ImageTexture.IRONMAN_HIT,
+        [IronmanMode.GATHER]: ImageTexture.IRONMAN_GATHER,
+        [IronmanMode.BEAM]: ImageTexture.IRONMAN_BEAM,
+      };
+
+      this.ironman.setTexture(textures[mode]);
 
       // 아이언맨 사이즈 재설정
       this.ironman.setSize(this.ironman.frame.width, this.ironman.frame.height);
