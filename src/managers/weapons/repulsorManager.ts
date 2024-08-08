@@ -36,8 +36,8 @@ export default class RepulsorManager {
       return;
 
     // 리펄서 생성 위치 지정
-    const posX = this.ironman.x + this.ironman.displayWidth / 1.5;
-    const posY = this.ironman.y - this.ironman.displayHeight / 3;
+    const posX = this.ironman.x + this.ironman.displayWidth * 0.88;
+    const posY = this.ironman.y + this.ironman.displayHeight * 0.07;
 
     // 리펄서 생성
     const repulsor = new Repulsor(

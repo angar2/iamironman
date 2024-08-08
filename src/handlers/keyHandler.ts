@@ -42,7 +42,7 @@ export default class KeyHandler {
 
   // Cursors 키 이벤트
   private handleKeyCursor() {
-    this.ironman.setVelocity(0);
+    // this.ironman.setVelocity(0);
 
     if (this.cursors.left.isDown)
       this.ironmanControlManager.updatePosition(false, false);

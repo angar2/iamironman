@@ -1,16 +1,23 @@
 import Phaser from 'phaser';
 import TimerHandler from '../../handlers/timerHandler';
+import GroupManager from '../groupManager';
 import Ironman from '../../objects/charaters/ironman';
 import { ImageTexture, IronmanMode } from '../../enum';
 
 export default class IronmanManager {
   private scene: Phaser.Scene;
   private timerHandler: TimerHandler;
+  private groupManager: GroupManager;
   private ironman!: Ironman;
 
-  constructor(scene: Phaser.Scene, timerHandler: TimerHandler) {
+  constructor(
+    scene: Phaser.Scene,
+    timerHandler: TimerHandler,
+    groupManager: GroupManager
+  ) {
     this.scene = scene;
     this.timerHandler = timerHandler;
+    this.groupManager = groupManager;
 
     this.create();
   }
@@ -24,7 +31,8 @@ export default class IronmanManager {
       this.scene,
       gameWidth / 4,
       gameHeight / 2,
-      ImageTexture.IRONMAN_NORMAL
+      ImageTexture.IRONMAN_NORMAL,
+      this.groupManager
     );
   }
 
@@ -45,10 +53,6 @@ export default class IronmanManager {
           break;
         case IronmanMode.HIT:
           this.ironman.setTexture(ImageTexture.IRONMAN_HIT);
-          this.ironman.setPosition(
-            this.ironman.x - this.ironman.displayWidth / 1.5,
-            this.ironman.y - this.ironman.displayHeight / 8
-          );
           break;
         case IronmanMode.GATHER:
           this.ironman.setTexture(ImageTexture.IRONMAN_GATHER);
@@ -57,6 +61,9 @@ export default class IronmanManager {
           this.ironman.setTexture(ImageTexture.IRONMAN_BEAM);
           break;
       }
+      this.ironman.setSize(this.ironman.frame.width, this.ironman.frame.height);
+      this.ironman.mode = mode;
+      this.ironman.createCollisionZones();
     }
   }
 

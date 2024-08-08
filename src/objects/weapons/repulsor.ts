@@ -23,7 +23,7 @@ export default class Repulsor extends Phaser.Physics.Arcade.Image {
     scene.physics.add.existing(this);
 
     const scale = (scene.game.canvas.width * scaleConfig.repulsor) / this.width;
-    this.setScale(scale);
+    this.setScale(scale).setOrigin(0, 0);
   }
 
   public getType() {

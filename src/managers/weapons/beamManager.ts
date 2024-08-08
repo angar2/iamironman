@@ -50,12 +50,9 @@ export default class BeamManager {
   public updatePosition() {
     if (!this.ironman || !this.beam) return;
 
-    const gameWidth = this.scene.game.canvas.width;
-    const ironmanHeight = this.ironman.displayHeight;
-
     // 아이언맨의 위치를 기준으로 빔 위치 업데이트
-    const PosX = this.ironman.x + gameWidth / 2.5;
-    const PosY = this.ironman.y - ironmanHeight / 3.5;
+    const PosX = this.ironman.x + this.beam.displayWidth * 0.05;
+    const PosY = this.ironman.y + this.beam.displayHeight * 0.18;
 
     this.beam.setPosition(PosX, PosY);
   }

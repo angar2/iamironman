@@ -13,7 +13,7 @@ import Repulsor from '../../objects/weapons/repulsor';
 import Beam from '../../objects/weapons/beam';
 import UltronRepulsor from '../../objects/weapons/ultronRepulsor';
 import Enemy from '../../objects/charaters/enemy';
-import { maxConfig, speedConfig } from '../../config';
+import { collisionElementConfig, maxConfig, speedConfig } from '../../config';
 import { GroupType, IronmanMode, StateName } from '../../enum';
 
 export default class IronmanControlManager {
@@ -60,9 +60,12 @@ export default class IronmanControlManager {
   // 아이언맨 피격 감지 핸들러 등록
   private setupHitDetector() {
     this.collisionHandler.handleHit(
-      this.ironman,
+      this.ironman.collisionZones,
       { enemies: this.enemies, ultronRepulsors: this.ultronRepulsors },
-      (ironman: Ironman, target: Enemy | UltronRepulsor) => {
+      (
+        ironman: Phaser.Physics.Arcade.Image,
+        target: Enemy | UltronRepulsor
+      ) => {
         this.ironmanManager.transform(IronmanMode.HIT); // 아이언맨 모드 변환
         this.healthManager.decrease(); // 아이언맨 데미지 처리
         if (target instanceof UltronRepulsor) target.destroy(); // 울트론 리펄서일 경우 제거
@@ -89,39 +92,48 @@ export default class IronmanControlManager {
     const speed = isPlus ? speedConfig.ironman : -speedConfig.ironman;
 
     isUpdown
-      ? this.ironman.setVelocityY(speed)
-      : this.ironman.setVelocityX(speed);
+      ? this.ironman.setY(this.ironman.y + speed)
+      : this.ironman.setX(this.ironman.x + speed);
 
     this.setMovementBounds();
+    this.updateCollisionZones(isUpdown, speed);
+  }
+
+  // 아이언맨 충돌 감지 센서 이동
+  public updateCollisionZones(isUpdown: boolean, speed: number) {
+    const offsetX = isUpdown ? 0 : speed;
+    const offsetY = isUpdown ? speed : 0;
+
+    const elements = collisionElementConfig.ironman[this.ironman.mode];
+
+    this.ironman.collisionZones.children.entries.forEach((child, index) => {
+      const zone = child as Phaser.Physics.Arcade.Image;
+
+      // 현재 충돌 센서 위치 업데이트
+      zone.setX(
+        this.ironman.x + this.ironman.displayWidth * (elements[index].x / 100)
+      );
+      zone.setY(
+        this.ironman.y + this.ironman.displayHeight * (elements[index].y / 100)
+      );
+    });
   }
 
   // 이동 제한 범위 설정
   private setMovementBounds() {
     const padding = 10;
+    const gameWidth = this.scene.game.canvas.width;
+    const gameHeight = this.scene.game.canvas.height;
     const ironmanWidth = this.ironman!.displayWidth;
     const ironmanHeight = this.ironman!.displayHeight;
 
-    // 위치값 가져오기
-    const posX =
-      this.ironman.x +
-      (this.ironman.body!.velocity.x * this.scene.game.loop.delta) / 1000;
-    const posY =
-      this.ironman.y +
-      (this.ironman.body!.velocity.y * this.scene.game.loop.delta) / 1000;
-
     // 좌우 경계 확인 및 조정
-    if (posX < padding + ironmanWidth / 2)
-      this.ironman!.setX(padding + ironmanWidth / 2);
-    if (posX > this.scene.game.canvas.width - padding - ironmanWidth / 2)
-      this.ironman!.setX(
-        this.scene.game.canvas.width - padding - ironmanWidth / 2
-      );
-    if (posY < padding + ironmanHeight / 2)
-      this.ironman!.setY(padding + ironmanHeight / 2);
-    if (posY > this.scene.game.canvas.height - padding - ironmanHeight / 2)
-      this.ironman!.setY(
-        this.scene.game.canvas.height - padding - ironmanHeight / 2
-      );
+    if (this.ironman.x < 0) this.ironman!.setX(padding);
+    if (this.ironman.x > gameWidth - ironmanWidth)
+      this.ironman!.setX(gameWidth - ironmanWidth - padding);
+    if (this.ironman.y < 0) this.ironman!.setY(padding);
+    if (this.ironman.y > gameHeight - ironmanHeight)
+      this.ironman!.setY(gameHeight - ironmanHeight - padding);
   }
 
   // 아이언맨 리펄서 공격

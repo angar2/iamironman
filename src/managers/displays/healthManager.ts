@@ -101,9 +101,9 @@ export default class HealthManager {
 
       // 아이언맨 피격 감지 핸들러 등록
       this.collisionHandler.handleHit(
-        this.ironman,
+        this.ironman.collisionZones,
         { enemies: this.enemies, ultronRepulsors: this.ultronRepulsors },
-        (ironman: Ironman, target: Enemy | UltronRepulsor) => {
+        (ironman: Phaser.Physics.Arcade.Image, target: Enemy | UltronRepulsor) => {
           this.ironmanManager.transform(IronmanMode.HIT); // 아이언맨 모드 변환
           this.decrease(); // 아이언맨 데미지 처리
           if (target instanceof UltronRepulsor) target.destroy(); // 울트론 리펄서일 경우 제거

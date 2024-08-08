@@ -72,7 +72,11 @@ export default class MainScene extends Phaser.Scene {
     this.gaugeManager = new GaugeManager(this, this.stateManager);
 
     // 아이언맨 관리자
-    this.ironmanManager = new IronmanManager(this, this.timerHandler);
+    this.ironmanManager = new IronmanManager(
+      this,
+      this.timerHandler,
+      this.groupManager
+    );
 
     // 체력 관리자
     this.healthManager = new HealthManager(

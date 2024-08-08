@@ -16,12 +16,12 @@ export const scaleConfig = {
 // 콘텐츠 속도
 export const speedConfig = {
   background: 4,
-  ironman: 400,
+  ironman: 10,
   ultron1: 10,
   ultron2: 6,
   ultron3: 16,
   rock: 4,
-  repulsor: 8,
+  repulsor: 16,
   ultronRepulsor: 8,
 };
 
@@ -79,4 +79,62 @@ export const timerConfig = {
 export const intervalConfig = {
   repulsorFireTime: 200,
   repulsorFireDistance: 4,
+};
+
+// 충돌 감지 존 위치 요소
+export const collisionElementConfig = {
+  ironman: {
+    normal: [
+      { x: 34, y: 0, w: 21, h: 13 },
+      { x: 13, y: 13, w: 55, h: 12 },
+      { x: 0, y: 25, w: 100, h: 12 },
+      { x: 30, y: 37, w: 36, h: 12 },
+      { x: 26, y: 49, w: 68, h: 15 },
+      { x: 20, y: 64, w: 40, h: 5 },
+      { x: 14, y: 69, w: 20, h: 10 },
+      { x: 10, y: 79, w: 10, h: 21 },
+    ],
+    repulsor: [
+      { x: 56, y: 0, w: 9, h: 7 },
+      { x: 27, y: 7, w: 71, h: 17 },
+      { x: 32, y: 24, w: 26, h: 23 },
+      { x: 22, y: 47, w: 34, h: 15 },
+      { x: 12, y: 62, w: 44, h: 10 },
+      { x: 10, y: 72, w: 10, h: 6 },
+      { x: 6, y: 78, w: 8, h: 10 },
+      { x: 0, y: 88, w: 10, h: 12 },
+    ],
+    hit: [
+      { x: 24, y: 0, w: 17, h: 10 },
+      { x: 8, y: 10, w: 90, h: 16 },
+      { x: 0, y: 26, w: 57, h: 11 },
+      { x: 30, y: 37, w: 66, h: 15 },
+      { x: 42, y: 52, w: 48, h: 5 },
+      { x: 50, y: 57, w: 30, h: 6 },
+      { x: 57, y: 63, w: 18, h: 28 },
+      { x: 68, y: 91, w: 16, h: 9 },
+    ],
+    gather: [
+      { x: 56, y: 0, w: 21, h: 7 },
+      { x: 26, y: 7, w: 58, h: 24 },
+      { x: 34, y: 31, w: 34, h: 8 },
+      { x: 30, y: 39, w: 50, h: 8 },
+      { x: 29, y: 47, w: 60, h: 12 },
+      { x: 27, y: 59, w: 67, h: 8 },
+      { x: 18, y: 67, w: 75, h: 12 },
+      { x: 8, y: 79, w: 90, h: 10 },
+      { x: 0, y: 89, w: 100, h: 11 },
+    ],
+    beam: [
+      { x: 44, y: 0, w: 17, h: 13 },
+      { x: 28, y: 13, w: 47, h: 11 },
+      { x: 0, y: 24, w: 100, h: 13 },
+      { x: 39, y: 37, w: 36, h: 10 },
+      { x: 33, y: 47, w: 54, h: 12 },
+      { x: 29, y: 59, w: 63, h: 8 },
+      { x: 18, y: 67, w: 75, h: 12 },
+      { x: 8, y: 79, w: 90, h: 10 },
+      { x: 0, y: 89, w: 100, h: 11 },
+    ],
+  },
 };

@@ -6,6 +6,7 @@ import Enemy from '../objects/charaters/enemy';
 import Repulsor from '../objects/weapons/repulsor';
 import Beam from '../objects/weapons/beam';
 import { HandlerName, StateName } from '../enum';
+import Group from '../objects/group';
 
 export default class CollisionHandler {
   private scene: Phaser.Scene;
@@ -35,12 +36,12 @@ export default class CollisionHandler {
 
   // 아이언맨 피격 감지 핸들러 등록
   public handleHit(
-    ironman: Ironman,
+    ironman: Phaser.Physics.Arcade.Group,
     targets: {
-      enemies?: Phaser.Physics.Arcade.Group;
-      ultronRepulsors?: Phaser.Physics.Arcade.Group;
+      enemies?: Group;
+      ultronRepulsors?: Group;
     },
-    callback: (ironman: Ironman, enemy: Enemy | UltronRepulsor) => void
+    callback: (ironman: Phaser.Physics.Arcade.Image, enemy: Enemy | UltronRepulsor) => void
   ) {
     const targetEntries = [
       {

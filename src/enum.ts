@@ -15,6 +15,7 @@ export enum ImageTexture {
   BEAM = 'beam',
   ULTRON_REPULSOR = 'ultronRepulsor',
   HEALTH = 'health',
+  COLLISION_ZONE = 'collisionZone',
 }
 
 export enum IronmanMode {
@@ -81,4 +82,5 @@ export enum GroupType {
   REPULSORS = 'repulsors',
   ULTORON_REPULSORS = 'ultronRepulsors',
   WEAPONS = 'weapons',
+  COLLISION_ZONES = 'collisionZones',
 }
