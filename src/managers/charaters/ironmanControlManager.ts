@@ -128,11 +128,11 @@ export default class IronmanControlManager {
   public attackRepulsor() {
     if (this.stateManager.getState(StateName.IS_BEAM_MODE_ACTIVE)) return;
 
-    // 리펄서 발사
-    this.repulsorManager.fire();
-
     // 아이언맨 리펄서 모드 전환
     this.ironmanManager.transform(IronmanMode.REPULSOR);
+
+    // 리펄서 발사
+    this.repulsorManager.fire();
   }
 
   // 아이언맨 빔 공격

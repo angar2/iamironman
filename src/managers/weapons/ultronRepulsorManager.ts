@@ -36,7 +36,6 @@ export default class UltronRepulsorManager {
   public updatePosition() {
     if (this.ultronRepulsors.getLength() <= 0) return;
 
-    console.log(this.ultronRepulsors.getLength());
     this.ultronRepulsors!.children.entries.forEach((child) => {
       const repulsor = child as UltronRepulsor;
 

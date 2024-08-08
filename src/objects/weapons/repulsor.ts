@@ -6,6 +6,7 @@ export default class Repulsor extends Phaser.Physics.Arcade.Sprite {
   private speed: number;
   private _type: WeaponType;
   private damage: number;
+  private initialPosition: Phaser.Math.Vector2;
 
   constructor(scene: Phaser.Scene, x: number, y: number, texture: string) {
     super(scene, x, y, texture);
@@ -15,6 +16,7 @@ export default class Repulsor extends Phaser.Physics.Arcade.Sprite {
     this._type = WeaponType.REPULSOR;
     this.speed = speedConfig.repulsor;
     this.damage = damageConfig.repulsor;
+    this.initialPosition = new Phaser.Math.Vector2(x, y);
 
     // sprite 추가
     scene.add.existing(this);
@@ -34,5 +36,9 @@ export default class Repulsor extends Phaser.Physics.Arcade.Sprite {
 
   public getSpeed() {
     return this.speed;
+  }
+
+  public getInitialPos() {
+    return this.initialPosition;
   }
 }

@@ -48,7 +48,7 @@ export default class MainScene extends Phaser.Scene {
 
   create() {
     // 디버그 그래픽 설정
-    // this.physics.world.createDebugGraphic().setDepth(10);
+    this.physics.world.createDebugGraphic().setDepth(10);
 
     // 상태 관리자
     this.stateManager = new StateManager();

@@ -20,7 +20,6 @@ export default class Ironman extends Phaser.Physics.Arcade.Sprite {
     const scale =
       (scene.game.canvas.height * scaleConfig.ironman) / this.height;
     this.setScale(scale);
-    this.setDepth(8);
   }
 
   public getSpeed(): number {

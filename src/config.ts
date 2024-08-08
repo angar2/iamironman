@@ -17,11 +17,11 @@ export const scaleConfig = {
 export const speedConfig = {
   background: 4,
   ironman: 400,
-  ultron1: 12,
+  ultron1: 10,
   ultron2: 6,
-  ultron3: 18,
+  ultron3: 16,
   rock: 4,
-  repulsor: 10,
+  repulsor: 8,
   ultronRepulsor: 8,
 };
 
@@ -44,7 +44,7 @@ export const damageConfig = {
 // 콘텐츠 최대 개수
 export const maxConfig = {
   gauge: 20,
-  repulsor: 5,
+  repulsor: 3,
 };
 
 // 콘텐츠 스코어
@@ -64,7 +64,7 @@ export const gaugeConfig = {
   rock: 3,
 };
 
-// 빌런 콘텐츠 게이지 개수
+// 타이머 이벤트 시간
 export const timerConfig = {
   repulsorModeDuration: 300,
   hitModeDuration: 2000,
@@ -73,4 +73,10 @@ export const timerConfig = {
   hitSetupDuration: 3000,
   ultron1ModeDuration: 500,
   ultronRepulsorFireDuration: 800,
+};
+
+// 시간 간격
+export const intervalConfig = {
+  repulsorFireTime: 200,
+  repulsorFireDistance: 4,
 };
