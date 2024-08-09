@@ -10,7 +10,7 @@ import {
 } from '../../config';
 import { GroupType, ImageTexture, IronmanMode } from '../../enum';
 
-export default class Ironman extends Phaser.Physics.Arcade.Image {
+export default class Ironman extends Phaser.Physics.Arcade.Sprite {
   private speed: number;
   private health: number;
   public mode: IronmanMode;
@@ -56,7 +56,7 @@ export default class Ironman extends Phaser.Physics.Arcade.Image {
     // 기존 충격 감지 센서 제거
     this.collisionZones.clear(true, true);
 
-    const elements = collisionElementConfig.ironman[this.mode];
+    const elements = collisionElementConfig.heros.ironman[this.mode];
 
     elements.forEach(({ x, y, w, h }) => {
       const collisionZone = new CollisionZone(

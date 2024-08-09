@@ -107,7 +107,7 @@ export default class IronmanControlManager {
     const offsetX = isUpdown ? 0 : speed;
     const offsetY = isUpdown ? speed : 0;
 
-    const elements = collisionElementConfig.ironman[this.ironman.mode];
+    const elements = collisionElementConfig.heros.ironman[this.ironman.mode];
 
     this.ironman.collisionZones.children.entries.forEach((child, index) => {
       const zone = child as Phaser.Physics.Arcade.Image;

@@ -1,18 +1,23 @@
 import Phaser from 'phaser';
-import { EnemyType } from '../../enum';
-import { healthConfig, scaleConfig, speedConfig } from '../../config';
+import GroupManager from '../../managers/groupManager';
+import Group from '../group';
+import CollisionZone from '../collisionZone';
+import { EnemyType, GroupType, ImageTexture } from '../../enum';
+import { collisionElementConfig, healthConfig, scaleConfig, speedConfig } from '../../config';
 
 export default class Enemy extends Phaser.Physics.Arcade.Image {
   private speed: number;
   private _type: EnemyType;
   private health: number;
+  public collisionZones!: Group;
 
   constructor(
     scene: Phaser.Scene,
     x: number,
     y: number,
     texture: string,
-    enemyType: EnemyType
+    enemyType: EnemyType,
+    groupManager: GroupManager,
   ) {
     super(scene, x, y, texture);
 
@@ -21,6 +26,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Image {
     this.speed = speedConfig[enemyType];
     this._type = enemyType;
     this.health = healthConfig[enemyType];
+    this.collisionZones = groupManager.get(GroupType.COLLISION_ZONES);
 
     // sprite 추가
     scene.add.existing(this);
@@ -50,4 +56,25 @@ export default class Enemy extends Phaser.Physics.Arcade.Image {
     // 체력 소진 여부 반환
     return this.health <= 0;
   }
+
+  // 충격 감지 센서 생성
+  // public createCollisionZones() {
+  //   // 기존 충격 감지 센서 제거
+  //   this.collisionZones.clear(true, true);
+
+  //   const elements = collisionElementConfig.enemies[this.enemyType][this.enemyMype];
+
+  //   elements.forEach(({ x, y, w, h }) => {
+  //     const collisionZone = new CollisionZone(
+  //       this.scene,
+  //       this.x + this.displayWidth * (x / 100),
+  //       this.y + this.displayHeight * (y / 100),
+  //       ImageTexture.COLLISION_ZONE
+  //     )
+  //       .setSize(this.displayWidth * (w / 100), this.displayHeight * (h / 100))
+  //       .setOffset(0, 0);
+
+  //     this.collisionZones.add(collisionZone);
+  //   });
+  // }
 }

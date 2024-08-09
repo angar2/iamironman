@@ -24,6 +24,7 @@ export default class EnemyManager {
   private scene: Phaser.Scene;
   private collisionHandler: CollisionHandler;
   private timerHandler: TimerHandler;
+  private groupManager: GroupManager;
   private scoreManager: ScoreManager;
   private gaugeManager: GaugeManager;
   private ultronRepulsorManager: UltronRepulsorManager;
@@ -44,6 +45,7 @@ export default class EnemyManager {
     this.scene = scene;
     this.collisionHandler = collisionHandler;
     this.timerHandler = timerHandler;
+    this.groupManager = groupManager;
     this.scoreManager = scoreManager;
     this.gaugeManager = gaugeManager;
     this.ultronRepulsorManager = ultronRepulsorManager;
@@ -77,7 +79,7 @@ export default class EnemyManager {
         break;
     }
 
-    this.enemy = new Enemy(this.scene, 0, 0, imageTexture, enemytype);
+    this.enemy = new Enemy(this.scene, 0, 0, imageTexture, enemytype, this.groupManager);
 
     const targetWidth = this.enemy.displayWidth;
     const targetHeight = this.enemy.displayHeight;
