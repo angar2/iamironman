@@ -31,7 +31,7 @@ export default class IronmanManager {
       this.scene,
       gameWidth / 4,
       gameHeight / 2,
-      ImageTexture.IRONMAN_NORMAL,
+      ImageTexture.IRONMAN_REPULSOR,
       this.groupManager
     );
   }
@@ -60,7 +60,7 @@ export default class IronmanManager {
       // 아이언맨 모드 업데이트
       this.ironman.mode = mode;
 
-      // 충격 감지 센서 생성
+      // 충격 감지 영역 생성
       this.ironman.createCollisionZones();
     }
   }

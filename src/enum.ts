@@ -26,6 +26,10 @@ export enum IronmanMode {
   BEAM = 'beam',
 }
 
+export enum HeroType {
+  IRONMAN = 'ironman',
+}
+
 export enum EnemyType {
   ULTRON1 = 'ultron1',
   ULTRON2 = 'ultron2',
@@ -41,14 +45,10 @@ export enum EnemyMode {
 export enum WeaponType {
   REPULSOR = 'repulsor',
   BEAM = 'beam',
-  ULTRON_REPULSOR = 'ultronRepulsor',
 }
 
-export enum HandlerName {
-  HIT_ENEMIES = 'hitFromEnemiesOverlapHandler',
-  HIT_ULTRON_REPULSOR = 'hitFromUltronRepulsorOverlapHandler',
-  ATTACK = 'attackOverlapHandler',
-  ULTRON1 = 'ultron1OverlapHandler',
+export enum EnemyWeaponType {
+  ULTRON_REPULSOR = 'ultronRepulsor',
 }
 
 export enum TimerName {
@@ -82,5 +82,16 @@ export enum GroupType {
   REPULSORS = 'repulsors',
   ULTORON_REPULSORS = 'ultronRepulsors',
   WEAPONS = 'weapons',
-  COLLISION_ZONES = 'collisionZones',
+  // COLLISION_ZONES = 'collisionZones',
+}
+
+export enum CollisionZonesGroupType {
+  IRONMAN = 'ironman',
+  ULTRON1 = 'ultron1',
+  ULTRON2 = 'ultron2',
+  ULTRON3 = 'ultron3',
+  ROCK = 'rock',
+  REPULSOR = 'repulsor',
+  BEAM = 'beam',
+  ULTRON_REPULSOR = 'ultronRepulsor',
 }

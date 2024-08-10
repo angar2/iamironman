@@ -1,6 +1,5 @@
 import Phaser from 'phaser';
 import StateManager from '../managers/stateManager';
-import CollisionHandler from '../handlers/collisionHandler';
 import TimerHandler from '../handlers/timerHandler';
 import GroupManager from '../managers/groupManager';
 import BackgroundManager from '../managers/displays/backgroundManager';
@@ -10,16 +9,16 @@ import IronmanManager from '../managers/charaters/ironmanManager';
 import HealthManager from '../managers/displays/healthManager';
 import RepulsorManager from '../managers/weapons/repulsorManager';
 import BeamManager from '../managers/weapons/beamManager';
+import IronmanControlManager from '../managers/charaters/ironmanControlManager';
 import UltronRepulsorManager from '../managers/weapons/ultronRepulsorManager';
 import EnemyManager from '../managers/charaters/enemyManager';
-import IronmanControlManager from '../managers/charaters/ironmanControlManager';
+import CollisionHandler from '../handlers/collisionHandler';
 import KeyHandler from '../handlers/keyHandler';
 import { scoreConfig } from '../config';
 import { ImageTexture } from '../enum';
 
 export default class MainScene extends Phaser.Scene {
   private stateManager!: StateManager;
-  private collisionHandler!: CollisionHandler;
   private timerHandler!: TimerHandler;
   private groupManager!: GroupManager;
   private backgroundManager!: BackgroundManager;
@@ -29,9 +28,10 @@ export default class MainScene extends Phaser.Scene {
   private healthManager!: HealthManager;
   private repulsorManager!: RepulsorManager;
   private beamManager!: BeamManager;
+  private ironmanControlManager!: IronmanControlManager;
   private ultronRepulsorManager!: UltronRepulsorManager;
   private enemyManager!: EnemyManager;
-  private ironmanControlManager!: IronmanControlManager;
+  private collisionHandler!: CollisionHandler;
   private keyHandler!: KeyHandler;
 
   constructor() {
@@ -53,14 +53,11 @@ export default class MainScene extends Phaser.Scene {
     // 상태 관리자
     this.stateManager = new StateManager();
 
-    // 충돌 감지 핸들러
-    this.collisionHandler = new CollisionHandler(this, this.stateManager);
+    // 그룹 관리자
+    this.groupManager = new GroupManager(this);
 
     // 타이머 핸들러
     this.timerHandler = new TimerHandler(this);
-
-    // 그룹 관리자
-    this.groupManager = new GroupManager(this);
 
     // 배경 관리자
     this.backgroundManager = new BackgroundManager(this);
@@ -82,9 +79,7 @@ export default class MainScene extends Phaser.Scene {
     this.healthManager = new HealthManager(
       this,
       this.stateManager,
-      this.collisionHandler,
       this.timerHandler,
-      this.groupManager,
       this.ironmanManager
     );
 
@@ -104,6 +99,15 @@ export default class MainScene extends Phaser.Scene {
       this.ironmanManager
     );
 
+    // 아이언맨 조작 관리자
+    this.ironmanControlManager = new IronmanControlManager(
+      this,
+      this.stateManager,
+      this.ironmanManager,
+      this.repulsorManager,
+      this.beamManager
+    );
+
     // 울트론 리펄서 관리자
     this.ultronRepulsorManager = new UltronRepulsorManager(
       this,
@@ -113,7 +117,6 @@ export default class MainScene extends Phaser.Scene {
     // 빌런 관리자
     this.enemyManager = new EnemyManager(
       this,
-      this.collisionHandler,
       this.timerHandler,
       this.groupManager,
       this.scoreManager,
@@ -122,16 +125,14 @@ export default class MainScene extends Phaser.Scene {
       this.ultronRepulsorManager
     );
 
-    // 아이언맨 조작 관리자
-    this.ironmanControlManager = new IronmanControlManager(
+    // 충돌 감지 핸들러
+    this.collisionHandler = new CollisionHandler(
       this,
       this.stateManager,
-      this.collisionHandler,
+      this.timerHandler,
       this.groupManager,
       this.ironmanManager,
       this.healthManager,
-      this.repulsorManager,
-      this.beamManager,
       this.enemyManager
     );
 
@@ -164,8 +165,5 @@ export default class MainScene extends Phaser.Scene {
 
     // 울트론2 리펄서 이동
     this.ultronRepulsorManager.updatePosition();
-
-    // 아이언맨 공격 감지
-    this.ironmanControlManager.setupAttackDetector();
   }
 }

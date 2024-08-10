@@ -4,11 +4,16 @@ import IronmanManager from '../charaters/ironmanManager';
 import Group from '../../objects/group';
 import Ironman from '../../objects/charaters/ironman';
 import Repulsor from '../../objects/weapons/repulsor';
-import { intervalConfig, maxConfig } from '../../config';
+import {
+  collisionElementConfig,
+  intervalConfig,
+  maxConfig,
+} from '../../config';
 import { GroupType, ImageTexture } from '../../enum';
 
 export default class RepulsorManager {
   private scene: Phaser.Scene;
+  private groupManager: GroupManager;
   private ironman: Ironman;
   private repulsors: Group;
   private weapons: Phaser.Physics.Arcade.Group;
@@ -21,6 +26,7 @@ export default class RepulsorManager {
   ) {
     this.scene = scene;
     this.lastRepulsorFireTime = 0;
+    this.groupManager = groupManager;
     this.ironman = ironmanManager.get();
     this.repulsors = groupManager.get(GroupType.REPULSORS);
     this.weapons = groupManager.get(GroupType.WEAPONS);
@@ -44,7 +50,8 @@ export default class RepulsorManager {
       this.scene,
       posX,
       posY,
-      ImageTexture.REPULSOR
+      ImageTexture.REPULSOR,
+      this.groupManager
     );
 
     // 리펄서 발사 시간 스템프
@@ -65,7 +72,10 @@ export default class RepulsorManager {
       const speed = repulsor.getSpeed();
 
       // 리펄서 이동
-      repulsor.x += speed;
+      repulsor.setX(repulsor.x + speed);
+
+      // 리펄서 충돌 감지 영역 이동
+      this.updateCollisionZones(repulsor);
 
       // 일정 간격/화면을 벗어나면 리펄서 제거
       if (
@@ -73,8 +83,25 @@ export default class RepulsorManager {
         repulsor.x >
           repulsor.getInitialPos().x +
             this.scene.game.canvas.width / intervalConfig.repulsorFireDistance
-      )
+      ) {
+        repulsor.collisionZones.clear(true, true);
         repulsor.destroy();
+      }
+    });
+  }
+
+  // 리펄서 충돌 감지 영역 이동
+  public updateCollisionZones(repulsor: Repulsor) {
+    const elements =
+      collisionElementConfig.weapons[repulsor.getType()]['normal'];
+
+    repulsor.collisionZones.children.entries.forEach((child, index) => {
+      const zone = child as Phaser.Physics.Arcade.Image;
+      // 충돌 영역 위치 업데이트
+      zone.setX(repulsor.x + repulsor.displayWidth * (elements[index].x / 100));
+      zone.setY(
+        repulsor.y + repulsor.displayHeight * (elements[index].y / 100)
+      );
     });
   }
 }

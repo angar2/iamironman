@@ -7,10 +7,12 @@ import Group from '../../objects/group';
 import Ironman from '../../objects/charaters/ironman';
 import Beam from '../../objects/weapons/beam';
 import { GroupType, ImageTexture, StateName } from '../../enum';
+import { collisionElementConfig } from '../../config';
 
 export default class BeamManager {
   private scene: Phaser.Scene;
   private stateManager: StateManager;
+  private groupManager: GroupManager;
   private gaugeManager: GaugeManager;
   private ironman: Ironman;
   private weapons: Group;
@@ -25,6 +27,7 @@ export default class BeamManager {
   ) {
     this.scene = scene;
     this.stateManager = stateManager;
+    this.groupManager = groupManager;
     this.gaugeManager = gaugeManager;
     this.ironman = ironmanManager.get();
     this.weapons = groupManager.get(GroupType.WEAPONS);
@@ -40,7 +43,8 @@ export default class BeamManager {
       this.scene,
       gameWidth * 2,
       gameHeight * 2,
-      ImageTexture.BEAM
+      ImageTexture.BEAM,
+      this.groupManager
     );
 
     this.weapons!.add(this.beam);
@@ -55,11 +59,30 @@ export default class BeamManager {
     const PosY = this.ironman.y + this.beam.displayHeight * 0.18;
 
     this.beam.setPosition(PosX, PosY);
+
+    // 빔 충돌 감지 영역 이동
+    this.updateCollisionZones(this.beam);
+  }
+
+  // 빔 충돌 감지 영역 이동
+  public updateCollisionZones(repulsor: Beam) {
+    const elements =
+      collisionElementConfig.weapons[repulsor.getType()]['normal'];
+
+    repulsor.collisionZones.children.entries.forEach((child, index) => {
+      const zone = child as Phaser.Physics.Arcade.Image;
+      // 충돌 영역 위치 업데이트
+      zone.setX(repulsor.x + repulsor.displayWidth * (elements[index].x / 100));
+      zone.setY(
+        repulsor.y + repulsor.displayHeight * (elements[index].y / 100)
+      );
+    });
   }
 
   // 빔 제거
   public destroy() {
     if (!this.beam) return;
+    this.beam.collisionZones.clear(true, true);
     this.beam.destroy();
     this.beam = null;
     this.stateManager.updateState(StateName.IS_BEAM_MODE_ACTIVE, false);

@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import StateManager from '../stateManager';
 import CollisionHandler from '../../handlers/collisionHandler';
+import TimerHandler from '../../handlers/timerHandler';
 import GroupManager from '../groupManager';
 import IronmanManager from './ironmanManager';
 import HealthManager from '../displays/healthManager';
@@ -14,78 +15,69 @@ import Beam from '../../objects/weapons/beam';
 import UltronRepulsor from '../../objects/weapons/ultronRepulsor';
 import Enemy from '../../objects/charaters/enemy';
 import { collisionElementConfig, maxConfig, speedConfig } from '../../config';
-import { GroupType, IronmanMode, StateName } from '../../enum';
+import {
+  GroupType,
+  IronmanMode,
+  StateName,
+} from '../../enum';
 
 export default class IronmanControlManager {
   private scene: Phaser.Scene;
   private stateManager: StateManager;
-  private collisionHandler: CollisionHandler;
   private ironmanManager: IronmanManager;
-  private healthManager: HealthManager;
   private repulsorManager: RepulsorManager;
   private beamManager: BeamManager;
-  private enemyManager: EnemyManager;
-  private enemies: Group;
-  private weapons: Group;
-  private ultronRepulsors: Group;
   private ironman: Ironman;
 
   constructor(
     scene: Phaser.Scene,
     stateManager: StateManager,
-    collisionHandler: CollisionHandler,
-    groupManager: GroupManager,
     ironmanManager: IronmanManager,
-    healthManager: HealthManager,
     repulsorManager: RepulsorManager,
     beamManager: BeamManager,
-    enemyManager: EnemyManager
   ) {
     this.scene = scene;
     this.stateManager = stateManager;
-    this.collisionHandler = collisionHandler;
     this.ironmanManager = ironmanManager;
-    this.healthManager = healthManager;
     this.repulsorManager = repulsorManager;
     this.beamManager = beamManager;
-    this.enemyManager = enemyManager;
-    this.enemies = groupManager.get(GroupType.ENEMIES);
-    this.weapons = groupManager.get(GroupType.WEAPONS);
-    this.ultronRepulsors = groupManager.get(GroupType.ULTORON_REPULSORS);
     this.ironman = ironmanManager.get();
 
-    this.setupHitDetector();
+    // this.setupHitDetector();
+    // this.setupAttackDetector();
   }
 
-  // 아이언맨 피격 감지 핸들러 등록
-  private setupHitDetector() {
-    this.collisionHandler.handleHit(
-      this.ironman.collisionZones,
-      { enemies: this.enemies, ultronRepulsors: this.ultronRepulsors },
-      (
-        ironman: Phaser.Physics.Arcade.Image,
-        target: Enemy | UltronRepulsor
-      ) => {
-        this.ironmanManager.transform(IronmanMode.HIT); // 아이언맨 모드 변환
-        this.healthManager.decrease(); // 아이언맨 데미지 처리
-        if (target instanceof UltronRepulsor) target.destroy(); // 울트론 리펄서일 경우 제거
-      }
-    );
-  }
+  // // 아이언맨 피격 감지 핸들러 등록
+  // private setupHitDetector() {
+  //   this.collisionHandler.handleHit(
+  //     (target: Enemy | UltronRepulsor) => {
+  //       // 아이언맨 모드 변환
+  //       this.ironmanManager.transform(IronmanMode.HIT);
 
-  // 아이언맨 공격 감지 핸들러 등록
-  public setupAttackDetector() {
-    this.collisionHandler.handleAttack(
-      this.enemies,
-      this.weapons,
-      (enemy: Enemy, weapon: Repulsor | Beam) => {
-        this.enemyManager.damage(enemy, weapon); // 빌런 데미지 처리
-      },
-      (weapon: Repulsor | Beam) => {
-        if (weapon instanceof Repulsor) weapon.destroy(); // 리펄서일 경우 제거
-      }
-    );
-  }
+  //       // 아이언맨 데미지 처리
+  //       this.healthManager.decrease();
+
+  //       // 울트론 리펄서일 경우 제거
+  //       if (target instanceof UltronRepulsor) target.destroy();
+  //     }
+  //   );
+  // }
+
+  // // 아이언맨 공격 감지 핸들러 등록
+  // public setupAttackDetector() {
+  //   this.collisionHandler.handleAttack(
+  //     (enemy: Enemy, weapon: Repulsor | Beam) => {
+  //       // 빌런 데미지 처리
+  //       this.enemyManager.damage(enemy, weapon);
+
+  //       // 울트론 리펄서일 경우 제거
+  //       if (weapon instanceof Repulsor) {
+  //         weapon.collisionZones.clear(true, true);
+  //         weapon.destroy();
+  //       }
+  //     }
+  //   );
+  // }
 
   // 아이언맨 이동
   public updatePosition(isUpdown: boolean, isPlus: boolean) {
@@ -98,21 +90,18 @@ export default class IronmanControlManager {
     // 이동 제한 범위 설정
     this.setMovementBounds();
 
-    // 아이언맨 충돌 감지 센서 이동
-    this.updateCollisionZones(isUpdown, speed);
+    // 아이언맨 충돌 감지 영역 이동
+    this.updateCollisionZones();
   }
 
-  // 아이언맨 충돌 감지 센서 이동
-  public updateCollisionZones(isUpdown: boolean, speed: number) {
-    const offsetX = isUpdown ? 0 : speed;
-    const offsetY = isUpdown ? speed : 0;
-
+  // 아이언맨 충돌 감지 영역 이동
+  public updateCollisionZones() {
     const elements = collisionElementConfig.heros.ironman[this.ironman.mode];
 
     this.ironman.collisionZones.children.entries.forEach((child, index) => {
       const zone = child as Phaser.Physics.Arcade.Image;
 
-      // 충돌 센서 위치 업데이트
+      // 충돌 영역 위치 업데이트
       zone.setX(
         this.ironman.x + this.ironman.displayWidth * (elements[index].x / 100)
       );
