@@ -25,8 +25,9 @@ export default class ScoreManager {
       this.scene,
       gameWidth / 46,
       gameHeight / 7,
-      `${this.score}`,
+      new Intl.NumberFormat().format(this.score),
       {
+        fontFamily: '"VT323"',
         fontSize: `${fontSize}px`,
       }
     );
@@ -35,6 +36,6 @@ export default class ScoreManager {
   // 스코어 증가
   public increaseScore(score: number = scoreConfig.normal) {
     this.score += score;
-    this.scoreDisplay?.setText(`${this.score}`);
+    this.scoreDisplay?.setText(new Intl.NumberFormat().format(this.score));
   }
 }
