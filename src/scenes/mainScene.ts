@@ -163,5 +163,11 @@ export default class MainScene extends Phaser.Scene {
 
     // 울트론2 리펄서 이동
     this.ultronRepulsorManager.updatePosition();
+
+    // 아이언맨 체력 소진 시 일시정지
+    if (this.healthManager.checkDepleted()) {
+      this.scene.pause();
+      this.scene.launch('OverScene');
+    }
   }
 }

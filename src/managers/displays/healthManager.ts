@@ -4,10 +4,7 @@ import TimerHandler from '../../handlers/timerHandler';
 import IronmanManager from '../charaters/ironmanManager';
 import Health from '../../objects/displays/health';
 import Ironman from '../../objects/charaters/ironman';
-import {
-  StateName,
-  ImageTexture,
-} from '../../enum';
+import { StateName, ImageTexture } from '../../enum';
 
 export default class HealthManager {
   private scene: Phaser.Scene;
@@ -62,5 +59,10 @@ export default class HealthManager {
       // 무적 상태 활성화
       this.stateManager.updateState(StateName.IS_INVINCIBLE, false);
     });
+  }
+
+  // 아이언맨 체력 소진 확인
+  public checkDepleted() {
+    return this.lives.length <= 0;
   }
 }

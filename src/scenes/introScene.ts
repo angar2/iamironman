@@ -4,10 +4,8 @@ import { ImageTexture } from '../enum';
 
 export default class IntroScene extends Phaser.Scene {
   private backgroundManager!: BackgroundManager;
-
   private titleText!: Phaser.GameObjects.Text;
   private startText!: Phaser.GameObjects.Text;
-
   private enterKey!: Phaser.Input.Keyboard.Key;
   private blinkTimer!: Phaser.Time.TimerEvent;
 
@@ -34,18 +32,24 @@ export default class IntroScene extends Phaser.Scene {
         'I AM IRONMAN',
         {
           fontFamily: '"Press Start 2P"',
-          fontSize: `${this.cameras.main.width * 0.05}px`,
+          fontSize: `${this.cameras.main.width * 0.06}px`,
           color: '#E7D50B',
           align: 'center',
         }
       )
+      .setShadow(
+        this.cameras.main.width * 0.006,
+        this.cameras.main.width * 0.004,
+        '#E70B0B'
+      )
+      .setLetterSpacing(-this.cameras.main.width * 0.002)
       .setOrigin(0.5, 0.5);
 
     this.startText = this.add
       .text(
         this.cameras.main.centerX,
         this.cameras.main.centerY * 1.4,
-        'Press Enter to Start the Game',
+        'Press Enter to Start',
         {
           fontFamily: '"VT323"',
           fontSize: `${this.cameras.main.width * 0.034}px`,
@@ -53,6 +57,7 @@ export default class IntroScene extends Phaser.Scene {
           align: 'center',
         }
       )
+      .setLetterSpacing(this.cameras.main.width * 0.001)
       .setOrigin(0.5, 0.5);
 
     // Enter 키 입력 설정
@@ -63,7 +68,11 @@ export default class IntroScene extends Phaser.Scene {
     // 깜빡임 효과
     this.blinkTimer = this.time.addEvent({
       delay: 1000,
-      callback: () => this.startText.setVisible(!this.startText.visible),
+      callback: () => {
+        if (this.startText.style.color === '#ffffff')
+          this.startText.setColor('#E70B0B');
+        else this.startText.setColor('#ffffff');
+      },
       callbackScope: this,
       loop: true,
     });
@@ -76,15 +85,12 @@ export default class IntroScene extends Phaser.Scene {
     if (this.enterKey.isDown) this.startGame();
   }
 
-  private blinkText() {
-    this.startText.setVisible(!this.startText.visible);
-  }
-
   private startGame() {
     // 깜빡임 타이머 삭제
     if (this.blinkTimer) this.blinkTimer.destroy();
 
     // 메인 씬으로 전환
-    this.scene.start('MainScene');
+    this.scene.pause();
+    this.scene.switch('MainScene');
   }
 }

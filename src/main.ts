@@ -1,12 +1,13 @@
 import Phaser from 'phaser';
 import IntroScene from './scenes/introScene';
 import MainScene from './scenes/mainScene';
+import OverScene from './scenes/overScene';
 
 const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
   width: 2048,
   height: 1200,
-  scene: [IntroScene, MainScene],
+  scene: [IntroScene, MainScene, OverScene],
   physics: {
     default: 'arcade',
     arcade: {
