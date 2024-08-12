@@ -1,5 +1,5 @@
-import Group from '../objects/group';
-import CollisionZone from '../objects/collisionZone';
+import Group from '../objects/dynamics/group';
+import CollisionZone from '../objects/dynamics/collisionZone';
 import { CollisionZonesGroupType, GroupType } from '../enum';
 
 export default class GroupManager {
@@ -19,7 +19,7 @@ export default class GroupManager {
       this.groups[groupType] = new Group(
         this.scene,
         {
-          classType: Phaser.Physics.Arcade.Image,
+          classType: Phaser.GameObjects.Image,
           runChildUpdate: true,
         },
         groupType

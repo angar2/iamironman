@@ -1,38 +1,32 @@
 import Phaser from 'phaser';
-import GroupManager from '../../managers/groupManager';
-import Group from '../group';
-import CollisionZone from '../collisionZone';
-import { CollisionZonesGroupType, ImageTexture, WeaponType } from '../../enum';
-import { collisionElementConfig, damageConfig, scaleConfig } from '../../config';
+import CollisionZoneGroup from '../dynamics/collisionZoneGroup';
+import CollisionZone from '../dynamics/collisionZone';
+import { WeaponType } from '../../enum';
+import {
+  collisionElementConfig,
+  damageConfig,
+  scaleConfig,
+} from '../../config';
 
-export default class Beam extends Phaser.Physics.Arcade.Image {
+export default class Beam extends Phaser.GameObjects.Image {
   private _type: WeaponType;
   private damage: number;
-  public collisionZones: Group;
+  public collisionZones!: CollisionZoneGroup;
+  public colliderHandlers: Phaser.Physics.Arcade.Collider[] = [];
 
-  constructor(
-    scene: Phaser.Scene,
-    x: number,
-    y: number,
-    texture: string,
-    groupManager: GroupManager
-  ) {
+  constructor(scene: Phaser.Scene, x: number, y: number, texture: string) {
     super(scene, x, y, texture);
 
     // 설정
     this.name = WeaponType.BEAM;
     this._type = WeaponType.BEAM;
     this.damage = damageConfig.beam;
-    this.collisionZones = groupManager.getCollisionZones(
-      CollisionZonesGroupType.BEAM
-    );
 
     // sprite 추가
     scene.add.existing(this);
-    scene.physics.add.existing(this);
 
     const scale = (scene.game.canvas.width * scaleConfig.beam) / this.width;
-    this.setScale(scale).setOrigin(0, 0).setDepth(9);
+    this.setScale(scale).setDepth(9);
 
     this.createCollisionZones();
   }
@@ -45,10 +39,13 @@ export default class Beam extends Phaser.Physics.Arcade.Image {
     return this.damage;
   }
 
-  // 충격 감지 영역 생성
+  // 충돌 감지 영역 생성
   public createCollisionZones() {
-    // 기존 충격 감지 영역 제거
-    this.collisionZones.clear(true, true);
+    // 충돌 감지 영역 생성
+    this.collisionZones = new CollisionZoneGroup(this.scene, {
+      classType: CollisionZone,
+      runChildUpdate: true,
+    });
 
     const elements = collisionElementConfig.weapons[this._type].normal;
 
@@ -57,17 +54,11 @@ export default class Beam extends Phaser.Physics.Arcade.Image {
         this.scene,
         this.x + this.displayWidth * (x / 100),
         this.y + this.displayHeight * (y / 100),
-        0,
-        0,
-        // ImageTexture.COLLISION_ZONE
-      )
-        .setSize(this.displayWidth * (w / 100), this.displayHeight * (h / 100))
-        // .setOffset(0, 0);
-
-      collisionZone.who = this._type;
+        this.displayWidth * (w / 100),
+        this.displayHeight * (h / 100)
+      );
 
       this.collisionZones.add(collisionZone);
-      this.collisionZones.updateCollisionParent(this);
     });
   }
 }

@@ -47,10 +47,10 @@ export default class TimerHandler {
     });
   }
 
-  // 울트론1 모드 변환 타이머
+  // 울트론 공격 모드 변환 타이머
   public handleultronMode(callback: () => void) {
     this.ultron1ModeTimerEvent = this.scene.time.addEvent({
-      delay: timerConfig.ultron1ModeDuration,
+      delay: timerConfig.ultronModeDuration,
       callback: () => callback(),
       callbackScope: this,
     });

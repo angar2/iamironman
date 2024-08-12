@@ -56,6 +56,9 @@ export default class MainScene extends Phaser.Scene {
     // 그룹 관리자
     this.groupManager = new GroupManager(this);
 
+    // 충돌 감지 핸들러
+    this.collisionHandler = new CollisionHandler(this);
+
     // 타이머 핸들러
     this.timerHandler = new TimerHandler(this);
 
@@ -69,11 +72,7 @@ export default class MainScene extends Phaser.Scene {
     this.gaugeManager = new GaugeManager(this, this.stateManager);
 
     // 아이언맨 관리자
-    this.ironmanManager = new IronmanManager(
-      this,
-      this.timerHandler,
-      this.groupManager
-    );
+    this.ironmanManager = new IronmanManager(this, this.timerHandler);
 
     // 체력 관리자
     this.healthManager = new HealthManager(
@@ -83,20 +82,48 @@ export default class MainScene extends Phaser.Scene {
       this.ironmanManager
     );
 
+    // 울트론 리펄서 관리자
+    this.ultronRepulsorManager = new UltronRepulsorManager(
+      this,
+      this.stateManager,
+      this.collisionHandler,
+      this.groupManager,
+      this.ironmanManager,
+      this.healthManager
+    );
+
+    // 빌런 관리자
+    this.enemyManager = new EnemyManager(
+      this,
+      this.stateManager,
+      this.collisionHandler,
+      this.timerHandler,
+      this.groupManager,
+      this.scoreManager,
+      this.gaugeManager,
+      this.ironmanManager,
+      this.healthManager,
+      this.ultronRepulsorManager
+    );
+
     // 리펄서 관리자
     this.repulsorManager = new RepulsorManager(
       this,
+      this.collisionHandler,
       this.groupManager,
-      this.ironmanManager
+      this.ironmanManager,
+      this.enemyManager
     );
 
     // 빔 관리자
     this.beamManager = new BeamManager(
       this,
       this.stateManager,
+      this.collisionHandler,
       this.groupManager,
       this.gaugeManager,
-      this.ironmanManager
+      this.ironmanManager,
+      this.enemyManager
     );
 
     // 아이언맨 조작 관리자
@@ -106,34 +133,6 @@ export default class MainScene extends Phaser.Scene {
       this.ironmanManager,
       this.repulsorManager,
       this.beamManager
-    );
-
-    // 울트론 리펄서 관리자
-    this.ultronRepulsorManager = new UltronRepulsorManager(
-      this,
-      this.groupManager
-    );
-
-    // 빌런 관리자
-    this.enemyManager = new EnemyManager(
-      this,
-      this.timerHandler,
-      this.groupManager,
-      this.scoreManager,
-      this.gaugeManager,
-      this.ironmanManager,
-      this.ultronRepulsorManager
-    );
-
-    // 충돌 감지 핸들러
-    this.collisionHandler = new CollisionHandler(
-      this,
-      this.stateManager,
-      this.timerHandler,
-      this.groupManager,
-      this.ironmanManager,
-      this.healthManager,
-      this.enemyManager
     );
 
     // 키 이벤트 핸들러

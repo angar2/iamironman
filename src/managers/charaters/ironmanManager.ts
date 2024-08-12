@@ -1,23 +1,16 @@
 import Phaser from 'phaser';
 import TimerHandler from '../../handlers/timerHandler';
-import GroupManager from '../groupManager';
 import Ironman from '../../objects/charaters/ironman';
 import { ImageTexture, IronmanMode } from '../../enum';
 
 export default class IronmanManager {
   private scene: Phaser.Scene;
   private timerHandler: TimerHandler;
-  private groupManager: GroupManager;
   private ironman!: Ironman;
 
-  constructor(
-    scene: Phaser.Scene,
-    timerHandler: TimerHandler,
-    groupManager: GroupManager
-  ) {
+  constructor(scene: Phaser.Scene, timerHandler: TimerHandler) {
     this.scene = scene;
     this.timerHandler = timerHandler;
-    this.groupManager = groupManager;
 
     this.create();
   }
@@ -31,8 +24,7 @@ export default class IronmanManager {
       this.scene,
       gameWidth / 4,
       gameHeight / 2,
-      ImageTexture.IRONMAN_REPULSOR,
-      this.groupManager
+      ImageTexture.IRONMAN_NORMAL
     );
   }
 
@@ -60,8 +52,8 @@ export default class IronmanManager {
       // 아이언맨 모드 업데이트
       this.ironman.mode = mode;
 
-      // 충격 감지 영역 생성
-      this.ironman.createCollisionZones();
+      // 충돌 감지 영역 업데이트
+      this.ironman.updateCollisionZones();
     }
   }
 

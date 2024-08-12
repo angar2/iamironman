@@ -1,45 +1,36 @@
 import Phaser from 'phaser';
-import GroupManager from '../../managers/groupManager';
-import Group from '../group';
-import CollisionZone from '../collisionZone';
+import CollisionZoneGroup from '../dynamics/collisionZoneGroup';
+import CollisionZone from '../dynamics/collisionZone';
 import {
   collisionElementConfig,
   healthConfig,
   scaleConfig,
   speedConfig,
 } from '../../config';
-import { CollisionZonesGroupType, ImageTexture, IronmanMode } from '../../enum';
+import { HeroType, IronmanMode } from '../../enum';
 
-export default class Ironman extends Phaser.Physics.Arcade.Sprite {
+export default class Ironman extends Phaser.GameObjects.Sprite {
+  private _type: HeroType;
   private speed: number;
   private health: number;
   public mode: IronmanMode;
-  public collisionZones!: Group;
+  public collisionZones!: CollisionZoneGroup;
 
-  constructor(
-    scene: Phaser.Scene,
-    x: number,
-    y: number,
-    texture: string,
-    groupManager: GroupManager
-  ) {
+  constructor(scene: Phaser.Scene, x: number, y: number, texture: string) {
     super(scene, x, y, texture);
 
     // 설정
-    this.name = 'ironman';
+    this.name = HeroType.IRONMAN;
+    this._type = HeroType.IRONMAN;
     this.speed = speedConfig.ironman;
     this.health = healthConfig.ironman;
-    this.mode = IronmanMode.REPULSOR;
-    this.collisionZones = groupManager.getCollisionZones(CollisionZonesGroupType.IRONMAN);
+    this.mode = IronmanMode.NORMAL;
 
     // sprite 추가
     scene.add.existing(this);
-    scene.physics.add.existing(this);
 
-    const scale =
-      (scene.game.canvas.height * scaleConfig.ironman) / this.height;
-    this.setScale(scale)
-    // .setOrigin(0, 0);
+    const scale = (scene.game.canvas.width * scaleConfig.ironman) / this.width;
+    this.setScale(scale);
 
     this.createCollisionZones();
   }
@@ -52,9 +43,32 @@ export default class Ironman extends Phaser.Physics.Arcade.Sprite {
     return this.health;
   }
 
-  // 충격 감지 영역 생성
-  public createCollisionZones() {
-    // 기존 충격 감지 영역 제거
+  // 충돌 감지 영역 생성
+  private createCollisionZones() {
+    // 충돌 감지 영역 생성
+    this.collisionZones = new CollisionZoneGroup(this.scene, {
+      classType: CollisionZone,
+      runChildUpdate: true,
+    });
+
+    const elements = collisionElementConfig.heros.ironman[this.mode];
+
+    elements.forEach(({ x, y, w, h }) => {
+      const collisionZone = new CollisionZone(
+        this.scene,
+        this.x + this.displayWidth * (x / 100),
+        this.y + this.displayHeight * (y / 100),
+        this.displayWidth * (w / 100),
+        this.displayHeight * (h / 100)
+      );
+
+      this.collisionZones.add(collisionZone);
+    });
+  }
+
+  // 충돌 감지 영역 업데이트
+  public updateCollisionZones() {
+    // 기존 충돌 감지 영역 제거
     this.collisionZones.clear(true, true);
 
     const elements = collisionElementConfig.heros.ironman[this.mode];
@@ -65,11 +79,8 @@ export default class Ironman extends Phaser.Physics.Arcade.Sprite {
         this.x + this.displayWidth * (x / 100),
         this.y + this.displayHeight * (y / 100),
         this.displayWidth * (w / 100),
-        this.displayHeight * (h / 100),
-        // ImageTexture.COLLISION_ZONE
-      )
-        // .setSize(this.displayWidth * (w / 100), this.displayHeight * (h / 100))
-        // .setOffset(0, 0);
+        this.displayHeight * (h / 100)
+      );
 
       this.collisionZones.add(collisionZone);
     });

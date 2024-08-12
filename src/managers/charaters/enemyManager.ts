@@ -1,11 +1,14 @@
 import Phaser from 'phaser';
+import StateManager from '../stateManager';
+import CollisionHandler from '../../handlers/collisionHandler';
 import TimerHandler from '../../handlers/timerHandler';
 import GroupManager from '../groupManager';
 import ScoreManager from '../displays/scoreManager';
 import GaugeManager from '../displays/gaugeManager';
 import IronmanManager from './ironmanManager';
+import HealthManager from '../displays/healthManager';
 import UltronRepulsorManager from '../weapons/ultronRepulsorManager';
-import Group from '../../objects/group';
+import Group from '../../objects/dynamics/group';
 import Ironman from '../../objects/charaters/ironman';
 import Enemy from '../../objects/charaters/enemy';
 import Repulsor from '../../objects/weapons/repulsor';
@@ -16,15 +19,21 @@ import {
   EnemyType,
   GroupType,
   ImageTexture,
+  IronmanMode,
+  StateName,
   TimerName,
 } from '../../enum';
 
 export default class EnemyManager {
   private scene: Phaser.Scene;
+  private stateManager: StateManager;
+  private collisionHandler: CollisionHandler;
   private timerHandler: TimerHandler;
   private groupManager: GroupManager;
   private scoreManager: ScoreManager;
   private gaugeManager: GaugeManager;
+  private ironmanManager: IronmanManager;
+  private healthManager: HealthManager;
   private ultronRepulsorManager: UltronRepulsorManager;
   private enemies: Group;
   private ironman!: Ironman;
@@ -32,18 +41,25 @@ export default class EnemyManager {
 
   constructor(
     scene: Phaser.Scene,
+    stateManager: StateManager,
+    collisionHandler: CollisionHandler,
     timerHandler: TimerHandler,
     groupManager: GroupManager,
     scoreManager: ScoreManager,
     gaugeManager: GaugeManager,
     ironmanManager: IronmanManager,
+    healthManager: HealthManager,
     ultronRepulsorManager: UltronRepulsorManager
   ) {
     this.scene = scene;
+    this.stateManager = stateManager;
+    this.collisionHandler = collisionHandler;
     this.timerHandler = timerHandler;
     this.groupManager = groupManager;
     this.scoreManager = scoreManager;
     this.gaugeManager = gaugeManager;
+    this.ironmanManager = ironmanManager;
+    this.healthManager = healthManager;
     this.ultronRepulsorManager = ultronRepulsorManager;
     this.ironman = ironmanManager.get();
     this.enemies = groupManager.get(GroupType.ENEMIES);
@@ -51,7 +67,6 @@ export default class EnemyManager {
     for (const enemy of Object.values(EnemyType)) {
       this.create(enemy);
     }
-    // this.ultron1Attack();
   }
 
   // 빌런 생성
@@ -67,14 +82,7 @@ export default class EnemyManager {
     };
     const imageTexture = textureMap[enemytype];
 
-    const enemy = new Enemy(
-      this.scene,
-      0,
-      0,
-      imageTexture,
-      enemytype,
-      this.groupManager
-    );
+    const enemy = new Enemy(this.scene, 0, 0, imageTexture, enemytype);
 
     const targetWidth = enemy.displayWidth;
     const targetHeight = enemy.displayHeight;
@@ -88,6 +96,23 @@ export default class EnemyManager {
     this.enemy[enemytype] = enemy;
     this.enemies.add(enemy);
 
+    // 아이언맨 피격 감지 핸들러 등록
+    this.collisionHandler.handleHit(
+      this.ironman,
+      enemy,
+      () => {
+        // 아이언맨 모드 변환
+        this.ironmanManager.transform(IronmanMode.HIT);
+
+        // 아이언맨 데미지 처리
+        this.healthManager.decrease();
+      },
+      () =>
+        !this.stateManager.getState(StateName.IS_INVINCIBLE) &&
+        !this.stateManager.getState(StateName.IS_BEAM_MODE_ACTIVE)
+    );
+
+    enemytype === EnemyType.ULTRON1 && this.ultron1Attack(enemy);
     enemytype === EnemyType.ULTRON2 && this.ultron2Attack(enemy);
   }
 
@@ -110,7 +135,7 @@ export default class EnemyManager {
       // 화면을 벗어날 경우
       if (enemy.x < 0) {
         // 빌런 제거
-        enemy.destroy();
+        this.remove(enemy);
 
         // 특정 빌런 설정
         switch (type) {
@@ -144,6 +169,7 @@ export default class EnemyManager {
 
   // 빌런 모드 변경
   public setTexture(enemy: Enemy, mode: EnemyMode) {
+    const type = enemy.getType();
     const textureMap = {
       [EnemyType.ULTRON1]: {
         [EnemyMode.NORMAL]: ImageTexture.ULTRON1_NORMAL,
@@ -154,10 +180,17 @@ export default class EnemyManager {
         [EnemyMode.ATTACK]: ImageTexture.ULTRON2_ATTACK,
       },
     };
-    
-    const type = enemy.getType();
     const texture = textureMap[type as keyof typeof textureMap]?.[mode];
     texture && enemy.setTexture(texture);
+
+    // 빌런 사이즈 재설정
+    enemy.setSize(enemy.frame.width, enemy.frame.height);
+
+    // 빌런 모드 업데이트
+    enemy.mode = mode;
+
+    // 충돌 감지 영역 업데이트
+    enemy.updateCollisionZones();
   }
 
   // 빌런 피격
@@ -180,7 +213,7 @@ export default class EnemyManager {
       // 체력이 모두 소진된 경우
       if (isEliminated) {
         // 빌런 제거
-        enemy.destroy(true);
+        this.remove(enemy);
 
         // 빌런 재생성
         this.create(type);
@@ -194,18 +227,21 @@ export default class EnemyManager {
     }
   }
 
-  // // 울트론1 공격
-  // private ultron1Attack() {
-  //   this.collisionHandler.handleIronmanUltron1Collision(
-  //     (enemy: Enemy) => {
-  //       this.setTexture(enemy, EnemyMode.ATTACK)
+  // 울트론1 공격
+  private ultron1Attack(enemy: Enemy) {
+    // 아이언맨 충돌 감지 핸들러 등록
+    this.collisionHandler.handleUltron1Transform(
+      this.ironman,
+      enemy,
+      (enemy: Enemy) => {
+        this.setTexture(enemy, EnemyMode.ATTACK);
 
-  //       this.timerHandler.handleultronMode(() => {
-  //         if (enemy && enemy.active) this.setTexture(enemy, EnemyMode.NORMAL);
-  //       });
-  //     }
-  //   );
-  // }
+        this.timerHandler.handleultronMode(() => {
+          if (enemy && enemy.active) this.setTexture(enemy, EnemyMode.NORMAL);
+        });
+      }
+    );
+  }
 
   // 울트론2 공격
   private ultron2Attack(enemy: Enemy) {
@@ -213,7 +249,19 @@ export default class EnemyManager {
       if (enemy && enemy.active) {
         this.setTexture(enemy, EnemyMode.ATTACK);
         this.ultronRepulsorManager.fire(enemy);
+        this.timerHandler.handleultronMode(() => {
+          if (enemy && enemy.active) this.setTexture(enemy, EnemyMode.NORMAL);
+        });
       }
     });
+  }
+
+  // 빌런 제거
+  private remove(enemy: Enemy) {
+    for (const colliderHandler of enemy.colliderHandlers) {
+      colliderHandler.destroy();
+    }
+    enemy.collisionZones.clear(true, true);
+    enemy.destroy();
   }
 }

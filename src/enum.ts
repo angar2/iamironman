@@ -15,7 +15,6 @@ export enum ImageTexture {
   BEAM = 'beam',
   ULTRON_REPULSOR = 'ultronRepulsor',
   HEALTH = 'health',
-  COLLISION_ZONE = 'collisionZone',
 }
 
 export enum IronmanMode {
@@ -67,7 +66,7 @@ export enum DurationName {
   GATHER = 'gatherModeDuration',
   BEAM = 'beamModeDuration',
   HIT_SETUP = 'hitSetupDuration',
-  ULTRON_1_MODE = 'ultron1ModeDuration',
+  ULTRON_1_MODE = 'ultronModeDuration',
   ULTROM_REPULSOR_FIRE = 'ultronRepulsorFireDuration',
 }
 
@@ -79,9 +78,10 @@ export enum StateName {
 
 export enum GroupType {
   ENEMIES = 'enemies',
-  REPULSORS = 'repulsors',
-  ULTORON_REPULSORS = 'ultronRepulsors',
   WEAPONS = 'weapons',
+  REPULSORS = 'repulsors',
+  BEAMS = 'beams',
+  ULTORON_REPULSORS = 'ultronRepulsors',
   // COLLISION_ZONES = 'collisionZones',
 }
 
