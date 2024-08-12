@@ -14,7 +14,6 @@ import UltronRepulsorManager from '../managers/weapons/ultronRepulsorManager';
 import EnemyManager from '../managers/charaters/enemyManager';
 import CollisionHandler from '../handlers/collisionHandler';
 import KeyHandler from '../handlers/keyHandler';
-import { scoreConfig } from '../config';
 import { ImageTexture } from '../enum';
 
 export default class MainScene extends Phaser.Scene {
@@ -145,7 +144,7 @@ export default class MainScene extends Phaser.Scene {
 
   update() {
     // 스코어 업데이트
-    this.scoreManager.increaseScore(scoreConfig.normal);
+    this.scoreManager.increaseScore();
 
     // 배경 이동
     this.backgroundManager.updatePosition();
@@ -159,7 +158,7 @@ export default class MainScene extends Phaser.Scene {
     // 리펄서 이동
     this.repulsorManager.updatePosition();
 
-    // 유니빔 이동
+    // 빔 이동
     this.beamManager.updatePosition();
 
     // 울트론2 리펄서 이동

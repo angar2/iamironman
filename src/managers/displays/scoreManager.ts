@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import Score from '../../objects/displays/score';
-import { scaleConfig } from '../../config';
+import { scaleConfig, scoreConfig } from '../../config';
 
 export default class ScoreManager {
   private scene: Phaser.Scene;
@@ -33,7 +33,7 @@ export default class ScoreManager {
   }
 
   // 스코어 증가
-  public increaseScore(score: number) {
+  public increaseScore(score: number = scoreConfig.normal) {
     this.score += score;
     this.scoreDisplay?.setText(`${this.score}`);
   }
