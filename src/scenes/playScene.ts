@@ -36,11 +36,6 @@ export default class PlayScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.setBaseURL('images');
-
-    Object.entries(ImageTexture).forEach(([key, value]) => {
-      this.load.image(value, `${value}.png`);
-    });
   }
 
   create() {

@@ -1,8 +1,11 @@
 const path = require('path');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-  mode: 'development',
+  mode: 'production',
+  // mode: 'development',
   entry: './src/main.ts',
   output: {
     filename: 'main.js',
@@ -29,8 +32,17 @@ module.exports = {
     extensions: ['.ts', '.js'],
   },
   plugins: [
+    new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: 'src/index.html',
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: 'assets/images',
+          to: 'assets/images',
+        },
+      ],
     }),
   ],
   devServer: {
