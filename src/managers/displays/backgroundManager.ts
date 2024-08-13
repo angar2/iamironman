@@ -10,8 +10,6 @@ export default class BackgroundManager {
   constructor(scene: Phaser.Scene) {
     this.scene = scene;
     this.backgrounds = [];
-
-    this.create();
   }
 
   // 배경 생성

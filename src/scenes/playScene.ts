@@ -2,7 +2,6 @@ import Phaser from 'phaser';
 import StateManager from '../managers/stateManager';
 import TimerHandler from '../handlers/timerHandler';
 import GroupManager from '../managers/groupManager';
-import BackgroundManager from '../managers/displays/backgroundManager';
 import ScoreManager from '../managers/displays/scoreManager';
 import GaugeManager from '../managers/displays/gaugeManager';
 import IronmanManager from '../managers/charaters/ironmanManager';
@@ -16,11 +15,10 @@ import CollisionHandler from '../handlers/collisionHandler';
 import KeyHandler from '../handlers/keyHandler';
 import { ImageTexture } from '../enum';
 
-export default class MainScene extends Phaser.Scene {
+export default class PlayScene extends Phaser.Scene {
   private stateManager!: StateManager;
   private timerHandler!: TimerHandler;
   private groupManager!: GroupManager;
-  private backgroundManager!: BackgroundManager;
   private scoreManager!: ScoreManager;
   private gaugeManager!: GaugeManager;
   private ironmanManager!: IronmanManager;
@@ -34,7 +32,7 @@ export default class MainScene extends Phaser.Scene {
   private keyHandler!: KeyHandler;
 
   constructor() {
-    super({ key: 'MainScene' });
+    super({ key: 'PlayScene' });
   }
 
   preload() {
@@ -60,9 +58,6 @@ export default class MainScene extends Phaser.Scene {
 
     // 타이머 핸들러
     this.timerHandler = new TimerHandler(this);
-
-    // 배경 관리자
-    this.backgroundManager = new BackgroundManager(this);
 
     // 스코어 관리자
     this.scoreManager = new ScoreManager(this);
@@ -146,9 +141,6 @@ export default class MainScene extends Phaser.Scene {
     // 스코어 업데이트
     this.scoreManager.increaseScore();
 
-    // 배경 이동
-    this.backgroundManager.updatePosition();
-
     // 아이언맨 이동
     this.keyHandler.updateIronmanPosition();
 
@@ -167,6 +159,7 @@ export default class MainScene extends Phaser.Scene {
     // 아이언맨 체력 소진 시 일시정지
     if (this.healthManager.checkDepleted()) {
       this.scene.pause();
+      this.scene.pause('BackScene');
       this.scene.launch('OverScene');
     }
   }

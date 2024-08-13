@@ -1,6 +1,3 @@
-import Repulsor from './objects/weapons/repulsor';
-import UltronRepulsor from './objects/weapons/ultronRepulsor';
-
 // 스크린 대비 Sprite 크기
 export const scaleConfig = {
   background: 1,

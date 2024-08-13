@@ -1,9 +1,7 @@
 import Phaser from 'phaser';
-import BackgroundManager from '../managers/displays/backgroundManager';
 import { ImageTexture } from '../enum';
 
 export default class IntroScene extends Phaser.Scene {
-  private backgroundManager!: BackgroundManager;
   private titleText!: Phaser.GameObjects.Text;
   private startText!: Phaser.GameObjects.Text;
   private enterKey!: Phaser.Input.Keyboard.Key;
@@ -22,9 +20,6 @@ export default class IntroScene extends Phaser.Scene {
   }
 
   create() {
-    // 배경 관리자
-    this.backgroundManager = new BackgroundManager(this);
-
     this.titleText = this.add
       .text(
         this.cameras.main.centerX,
@@ -79,9 +74,6 @@ export default class IntroScene extends Phaser.Scene {
   }
 
   update() {
-    // 배경 이동
-    this.backgroundManager.updatePosition();
-
     if (this.enterKey.isDown) this.startGame();
   }
 
@@ -90,7 +82,6 @@ export default class IntroScene extends Phaser.Scene {
     if (this.blinkTimer) this.blinkTimer.destroy();
 
     // 메인 씬으로 전환
-    this.scene.pause();
-    this.scene.switch('MainScene');
+    this.scene.switch('PlayScene');
   }
 }

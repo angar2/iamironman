@@ -1,13 +1,14 @@
 import Phaser from 'phaser';
+import BackScene from './scenes/backScene';
 import IntroScene from './scenes/introScene';
-import MainScene from './scenes/mainScene';
+import PlayScene from './scenes/playScene';
 import OverScene from './scenes/overScene';
 
 const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
   width: 2048,
   height: 1200,
-  scene: [IntroScene, MainScene, OverScene],
+  scene: [BackScene, IntroScene, PlayScene, OverScene],
   physics: {
     default: 'arcade',
     arcade: {
@@ -17,7 +18,7 @@ const config: Phaser.Types.Core.GameConfig = {
   },
   fps: {
     target: 60, // 기준
-    min: 30, // 최소
+    min: 60, // 최소
   },
   input: {
     keyboard: true,

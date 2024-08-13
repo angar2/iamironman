@@ -1,6 +1,4 @@
 import Phaser from 'phaser';
-import BackgroundManager from '../managers/displays/backgroundManager';
-import { ImageTexture } from '../enum';
 
 export default class OverScene extends Phaser.Scene {
   private titleText!: Phaser.GameObjects.Text;
@@ -94,7 +92,8 @@ export default class OverScene extends Phaser.Scene {
     if (this.blinkTimer) this.blinkTimer.destroy();
 
     // 메인 씬으로 전환
-    this.scene.switch('MainScene');
+    this.scene.resume('BackScene');
+    this.scene.switch('PlayScene');
   }
 
   private finishGame() {
@@ -102,7 +101,8 @@ export default class OverScene extends Phaser.Scene {
     if (this.blinkTimer) this.blinkTimer.destroy();
 
     // 인트로 씬으로 전환
-    this.scene.stop('MainScene');
+    this.scene.stop('PlayScene');
+    this.scene.resume('BackScene');
     this.scene.switch('IntroScene');
   }
 }
