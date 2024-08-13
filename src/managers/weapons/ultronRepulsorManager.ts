@@ -78,10 +78,10 @@ export default class UltronRepulsorManager {
     this.ultronRepulsors!.children.entries.forEach((child) => {
       const repulsor = child as UltronRepulsor;
 
-      const speed = repulsor.getSpeed();
+      const speed = this.scene.game.canvas.width * repulsor.getSpeed();
 
       // 리펄서 이동
-      repulsor.x -= speed;
+      repulsor.setX(repulsor.x - speed);
 
       // 울트론2 리펄서 충돌 감지 영역 이동
       this.updateCollisionZones(repulsor);

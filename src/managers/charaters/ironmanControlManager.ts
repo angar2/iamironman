@@ -32,7 +32,9 @@ export default class IronmanControlManager {
 
   // 아이언맨 이동
   public updatePosition(isUpdown: boolean, isPlus: boolean) {
-    const speed = isPlus ? speedConfig.ironman : -speedConfig.ironman;
+    const speed =
+      this.scene.game.canvas.width *
+      (isPlus ? speedConfig.ironman : -speedConfig.ironman);
 
     isUpdown
       ? this.ironman.setY(this.ironman.y + speed)

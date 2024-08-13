@@ -34,7 +34,7 @@ export default class BackgroundManager {
   // 배경 이동
   public updatePosition() {
     this.backgrounds.forEach((background) => {
-      background.x -= speedConfig.background;
+      background.setX((background.x - this.scene.game.canvas.width * speedConfig.background));
 
       // 화면의 왼쪽 끝을 넘어가면 위치 리셋
       if (background.x <= -background.displayWidth) {

@@ -6,8 +6,8 @@ import OverScene from './scenes/overScene';
 
 const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
-  width: 2048,
-  height: 1200,
+  width: 1024,
+  height: 600,
   scene: [BackScene, IntroScene, PlayScene, OverScene],
   physics: {
     default: 'arcade',

@@ -123,7 +123,7 @@ export default class EnemyManager {
     this.enemies.children.entries.forEach((child) => {
       const enemy = child as Enemy;
 
-      const speed = enemy.getSpeed();
+      const speed = this.scene.game.canvas.width * enemy.getSpeed();
       const type = enemy.getType();
 
       // 빌런 이동

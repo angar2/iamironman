@@ -94,7 +94,7 @@ export default class RepulsorManager {
     this.repulsors!.children.entries.forEach((child) => {
       const repulsor = child as Repulsor;
 
-      const speed = repulsor.getSpeed();
+      const speed = this.scene.game.canvas.width * repulsor.getSpeed();
 
       // 리펄서 이동
       repulsor.setX(repulsor.x + speed);
@@ -107,7 +107,7 @@ export default class RepulsorManager {
         repulsor.x > this.scene.game.canvas.width ||
         repulsor.x >
           repulsor.getInitialPos().x +
-            this.scene.game.canvas.width / intervalConfig.repulsorFireDistance
+            this.scene.game.canvas.width * intervalConfig.repulsorFireDistance
       )
         this.remove(repulsor);
     });

@@ -15,14 +15,14 @@ export const scaleConfig = {
 
 // 콘텐츠 속도
 export const speedConfig = {
-  background: 4,
-  ironman: 10,
-  ultron1: 10,
-  ultron2: 6,
-  ultron3: 14,
-  rock: 4,
-  repulsor: 14,
-  ultronRepulsor: 8,
+  background: 0.004,
+  ironman: 0.005,
+  ultron1: 0.006,
+  ultron2: 0.004,
+  ultron3: 0.01,
+  rock: 0.004,
+  repulsor: 0.008,
+  ultronRepulsor: 0.008,
 };
 
 // 캐릭터 콘텐츠 체력
@@ -53,7 +53,7 @@ export const scoreConfig = {
   ultron1: 200,
   ultron2: 200,
   ultron3: 100,
-  rock: 300,
+  rock: 400,
 };
 
 // 빌런 콘텐츠 게이지 개수
@@ -61,7 +61,7 @@ export const gaugeConfig = {
   ultron1: 2,
   ultron2: 2,
   ultron3: 1,
-  rock: 3,
+  rock: 4,
 };
 
 // 타이머 이벤트 시간
@@ -78,7 +78,7 @@ export const timerConfig = {
 // 시간 간격
 export const intervalConfig = {
   repulsorFireTime: 200,
-  repulsorFireDistance: 4,
+  repulsorFireDistance: 0.3,
 };
 
 // 충돌 감지 존 위치 요소
