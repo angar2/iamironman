@@ -29,7 +29,7 @@ export enum Sound {
   GATTER = 'gather',
   BEAM = 'beam',
   ATTACK = 'attack',
-  GAME_OVER = 'gameover',
+  GAME_OVER = 'gameOver',
 }
 
 export enum IronmanMode {

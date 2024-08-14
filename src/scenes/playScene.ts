@@ -34,8 +34,7 @@ export default class PlayScene extends Phaser.Scene {
     super({ key: 'PlayScene' });
   }
 
-  preload() {
-  }
+  preload() {}
 
   create() {
     // 디버그 그래픽 설정
@@ -151,6 +150,7 @@ export default class PlayScene extends Phaser.Scene {
 
     // 아이언맨 체력 소진 시 일시정지
     if (this.healthManager.checkDepleted()) {
+      this.sound.add('gameOver').play();
       this.scene.pause();
       this.scene.pause('BackScene');
       this.scene.launch('OverScene');
