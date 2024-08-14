@@ -16,6 +16,7 @@ export default class Enemy extends Phaser.GameObjects.Image {
   public mode: EnemyMode;
   public collisionZones!: CollisionZoneGroup;
   public colliderHandlers: Phaser.Physics.Arcade.Collider[] = [];
+  private sound: Phaser.Sound.BaseSound;
 
   constructor(
     scene: Phaser.Scene,
@@ -32,6 +33,7 @@ export default class Enemy extends Phaser.GameObjects.Image {
     this._type = enemyType;
     this.health = healthConfig[enemyType];
     this.mode = EnemyMode.NORMAL;
+    this.sound = this.scene.sound.add('attack');
 
     // sprite 추가
     scene.add.existing(this);
@@ -104,5 +106,10 @@ export default class Enemy extends Phaser.GameObjects.Image {
 
       this.collisionZones.add(collisionZone);
     });
+  }
+
+  // 사운드 재생
+  public playSound() {
+    return this.sound.play();
   }
 }

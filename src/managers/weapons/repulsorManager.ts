@@ -69,6 +69,9 @@ export default class RepulsorManager {
     this.repulsors.add(repulsor);
     this.weapons.add(repulsor);
 
+    // 리펄서 사운드 재생
+    repulsor.playSound();
+
     // 아이언맨 공격 감지 핸들러 등록
     const enemies = this.groupManager
       .get(GroupType.ENEMIES)

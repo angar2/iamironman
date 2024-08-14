@@ -206,6 +206,9 @@ export default class EnemyManager {
           break;
       }
 
+      // 빌런 사운드 재생
+      enemy.playSound();
+
       // 데미지 처리
       const damage = weapon.getDamage();
       const isEliminated = enemy.decreaseHealth(damage);

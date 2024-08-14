@@ -15,6 +15,7 @@ export default class Ironman extends Phaser.GameObjects.Sprite {
   private health: number;
   public mode: IronmanMode;
   public collisionZones!: CollisionZoneGroup;
+  private sound: { [key: string]: Phaser.Sound.BaseSound } = {};
 
   constructor(scene: Phaser.Scene, x: number, y: number, texture: string) {
     super(scene, x, y, texture);
@@ -25,6 +26,10 @@ export default class Ironman extends Phaser.GameObjects.Sprite {
     this.speed = speedConfig.ironman;
     this.health = healthConfig.ironman;
     this.mode = IronmanMode.NORMAL;
+    this.sound.repulsor = this.scene.sound.add('repulsor');
+    this.sound.hit = this.scene.sound.add('hit');
+    this.sound.gather = this.scene.sound.add('gather');
+    this.sound.beam = this.scene.sound.add('beam');
 
     // sprite 추가
     scene.add.existing(this);
@@ -84,5 +89,10 @@ export default class Ironman extends Phaser.GameObjects.Sprite {
 
       this.collisionZones.add(collisionZone);
     });
+  }
+
+  // 사운드 재생
+  public playSound(mode: IronmanMode) {
+    return this.sound[mode].play();
   }
 }

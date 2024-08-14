@@ -18,8 +18,18 @@ export enum ImageTexture {
 }
 
 export enum Font {
-  PressStart2P = 'PressStart2P',
+  PRESSSTART2P = 'PressStart2P',
   VT323 = 'VT323',
+}
+
+export enum Sound {
+  BACKGROUND = 'background',
+  REPULSOR = 'repulsor',
+  HIT = 'hit',
+  GATTER = 'gather',
+  BEAM = 'beam',
+  ATTACK = 'attack',
+  GAME_OVER = 'gameover',
 }
 
 export enum IronmanMode {

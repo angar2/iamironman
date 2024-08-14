@@ -58,20 +58,20 @@ export const scoreConfig = {
 
 // 빌런 콘텐츠 게이지 개수
 export const gaugeConfig = {
-  ultron1: 2,
+  ultron1: 3,
   ultron2: 2,
   ultron3: 1,
-  rock: 4,
+  rock: 5,
 };
 
 // 타이머 이벤트 시간
 export const timerConfig = {
   repulsorModeDuration: 300,
   hitModeDuration: 2000,
-  gatherModeDuration: 1500,
+  gatherModeDuration: 2000,
   beamModeDuration: 5000,
   hitSetupDuration: 3000,
-  ultronModeDuration: 500,
+  ultronModeDuration: 600,
   ultronRepulsorFireDuration: 800,
 };
 

@@ -16,6 +16,7 @@ export default class Repulsor extends Phaser.GameObjects.Image {
   private initialPosition: Phaser.Math.Vector2;
   public collisionZones!: CollisionZoneGroup;
   public colliderHandlers: Phaser.Physics.Arcade.Collider[] = [];
+  private sound: Phaser.Sound.BaseSound;
 
   constructor(scene: Phaser.Scene, x: number, y: number, texture: string) {
     super(scene, x, y, texture);
@@ -26,6 +27,7 @@ export default class Repulsor extends Phaser.GameObjects.Image {
     this.speed = speedConfig.repulsor;
     this.damage = damageConfig.repulsor;
     this.initialPosition = new Phaser.Math.Vector2(x, y);
+    this.sound = this.scene.sound.add('repulsor');
 
     // sprite 추가
     scene.add.existing(this);
@@ -73,5 +75,10 @@ export default class Repulsor extends Phaser.GameObjects.Image {
 
       this.collisionZones.add(collisionZone);
     });
+  }
+
+  // 사운드 재생
+  public playSound() {
+    return this.sound.play();
   }
 }

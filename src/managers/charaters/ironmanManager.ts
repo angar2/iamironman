@@ -59,7 +59,12 @@ export default class IronmanManager {
 
   // 아이언맨 모드별 타이머 설정 함수
   public transform(mode: IronmanMode, callback?: () => void) {
+    // 아이언맨 모드 변경
     this.setTexture(mode);
+
+    // 모드별 사운드 재생
+    if (mode !== IronmanMode.NORMAL || IronmanMode.REPULSOR)
+      this.ironman.playSound(mode);
 
     // 모드 유지 타이머 설정
     this.timerHandler.handleIronmanMode(mode, () => {
