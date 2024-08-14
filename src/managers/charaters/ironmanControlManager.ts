@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import StateManager from '../stateManager';
+import GaugeManager from '../displays/gaugeManager';
 import IronmanManager from './ironmanManager';
 import RepulsorManager from '../weapons/repulsorManager';
 import BeamManager from '../weapons/beamManager';
@@ -10,6 +11,7 @@ import { IronmanMode, StateName } from '../../enum';
 export default class IronmanControlManager {
   private scene: Phaser.Scene;
   private stateManager: StateManager;
+  private gaugeManager: GaugeManager;
   private ironmanManager: IronmanManager;
   private repulsorManager: RepulsorManager;
   private beamManager: BeamManager;
@@ -18,12 +20,14 @@ export default class IronmanControlManager {
   constructor(
     scene: Phaser.Scene,
     stateManager: StateManager,
+    gaugeManager: GaugeManager,
     ironmanManager: IronmanManager,
     repulsorManager: RepulsorManager,
     beamManager: BeamManager
   ) {
     this.scene = scene;
     this.stateManager = stateManager;
+    this.gaugeManager = gaugeManager;
     this.ironmanManager = ironmanManager;
     this.repulsorManager = repulsorManager;
     this.beamManager = beamManager;
@@ -118,6 +122,8 @@ export default class IronmanControlManager {
       this.ironmanManager.transform(IronmanMode.BEAM, () => {
         // 빔 제거
         this.beamManager.remove();
+        this.stateManager.updateState(StateName.IS_BEAM_MODE_ACTIVE, false);
+        this.gaugeManager.resetGauges();
         resolve();
       });
     });

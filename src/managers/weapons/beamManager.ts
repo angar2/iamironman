@@ -1,8 +1,6 @@
 import Phaser from 'phaser';
-import StateManager from '../stateManager';
 import CollisionHandler from '../../handlers/collisionHandler';
 import GroupManager from '../groupManager';
-import GaugeManager from '../displays/gaugeManager';
 import IronmanManager from '../charaters/ironmanManager';
 import EnemyManager from '../charaters/enemyManager';
 import Group from '../../objects/dynamics/group';
@@ -10,15 +8,13 @@ import Ironman from '../../objects/charaters/ironman';
 import Repulsor from '../../objects/weapons/repulsor';
 import Beam from '../../objects/weapons/beam';
 import Enemy from '../../objects/charaters/enemy';
-import { GroupType, ImageTexture, StateName } from '../../enum';
+import { GroupType, ImageTexture } from '../../enum';
 import { collisionElementConfig } from '../../config';
 
 export default class BeamManager {
   private scene: Phaser.Scene;
-  private stateManager: StateManager;
   private collisionHandler: CollisionHandler;
   private groupManager: GroupManager;
-  private gaugeManager: GaugeManager;
   private enemyManager: EnemyManager;
   private ironman: Ironman;
   private beams: Group;
@@ -27,18 +23,14 @@ export default class BeamManager {
 
   constructor(
     scene: Phaser.Scene,
-    stateManager: StateManager,
     collisionHandler: CollisionHandler,
     groupManager: GroupManager,
-    gaugeManager: GaugeManager,
     ironmanManager: IronmanManager,
     enemyManager: EnemyManager
   ) {
     this.scene = scene;
-    this.stateManager = stateManager;
     this.collisionHandler = collisionHandler;
     this.groupManager = groupManager;
-    this.gaugeManager = gaugeManager;
     this.enemyManager = enemyManager;
     this.ironman = ironmanManager.get();
     this.beams = groupManager.get(GroupType.BEAMS);
@@ -137,7 +129,5 @@ export default class BeamManager {
     this.beam.collisionZones.clear(true, true);
     this.beam.destroy();
     this.beam = null;
-    this.stateManager.updateState(StateName.IS_BEAM_MODE_ACTIVE, false);
-    this.gaugeManager.resetGauges();
   }
 }

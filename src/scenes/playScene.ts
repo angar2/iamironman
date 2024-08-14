@@ -13,7 +13,6 @@ import UltronRepulsorManager from '../managers/weapons/ultronRepulsorManager';
 import EnemyManager from '../managers/charaters/enemyManager';
 import CollisionHandler from '../handlers/collisionHandler';
 import KeyHandler from '../handlers/keyHandler';
-import { ImageTexture } from '../enum';
 
 export default class PlayScene extends Phaser.Scene {
   private stateManager!: StateManager;
@@ -107,10 +106,8 @@ export default class PlayScene extends Phaser.Scene {
     // 빔 관리자
     this.beamManager = new BeamManager(
       this,
-      this.stateManager,
       this.collisionHandler,
       this.groupManager,
-      this.gaugeManager,
       this.ironmanManager,
       this.enemyManager
     );
@@ -119,6 +116,7 @@ export default class PlayScene extends Phaser.Scene {
     this.ironmanControlManager = new IronmanControlManager(
       this,
       this.stateManager,
+      this.gaugeManager,
       this.ironmanManager,
       this.repulsorManager,
       this.beamManager
