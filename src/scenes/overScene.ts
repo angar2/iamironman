@@ -19,19 +19,19 @@ export default class OverScene extends Phaser.Scene {
       .text(
         this.cameras.main.centerX,
         this.cameras.main.centerY * 0.8,
-        'Game Over',
+        'GAME OVER',
         {
-          fontFamily: '"Press Start 2P"',
+          fontFamily: 'PressStart2P',
           fontSize: `${this.cameras.main.width * 0.04}px`,
           color: '#E7D50B',
           align: 'center',
         }
       )
-      .setShadow(
-        this.cameras.main.width * 0.006,
-        this.cameras.main.width * 0.004,
-        '#E70B0B'
-      )
+      // .setShadow(
+      //   this.cameras.main.width * 0.006,
+      //   this.cameras.main.width * 0.004,
+      //   '#E70B0B'
+      // )
       .setLetterSpacing(-this.cameras.main.width * 0.002)
       .setOrigin(0.5, 0.5);
 

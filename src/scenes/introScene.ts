@@ -11,8 +11,7 @@ export default class IntroScene extends Phaser.Scene {
     super({ key: 'IntroScene' });
   }
 
-  preload() {
-  }
+  preload() {}
 
   create() {
     this.titleText = this.add
@@ -21,7 +20,7 @@ export default class IntroScene extends Phaser.Scene {
         this.cameras.main.centerY * 0.8,
         'I AM IRONMAN',
         {
-          fontFamily: '"Press Start 2P"',
+          fontFamily: 'PressStart2P',
           fontSize: `${this.cameras.main.width * 0.06}px`,
           color: '#E7D50B',
           align: 'center',
@@ -41,7 +40,7 @@ export default class IntroScene extends Phaser.Scene {
         this.cameras.main.centerY * 1.4,
         'Press Enter to Start',
         {
-          fontFamily: '"VT323"',
+          fontFamily: 'VT323',
           fontSize: `${this.cameras.main.width * 0.034}px`,
           color: '#ffffff',
           align: 'center',

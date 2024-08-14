@@ -17,6 +17,11 @@ export enum ImageTexture {
   HEALTH = 'health',
 }
 
+export enum Font {
+  PressStart2P = 'PressStart2P',
+  VT323 = 'VT323',
+}
+
 export enum IronmanMode {
   NORMAL = 'normal',
   REPULSOR = 'repulsor',

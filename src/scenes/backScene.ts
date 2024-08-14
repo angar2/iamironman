@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import SceneManager from '../managers/sceneManager';
-import { ImageTexture } from '../enum';
+import { Font, ImageTexture } from '../enum';
 
 export default class BackScene extends Phaser.Scene {
   private sceneManager: SceneManager = SceneManager.getInstance();
@@ -10,10 +10,12 @@ export default class BackScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.setBaseURL('assets/images');
-
     Object.entries(ImageTexture).forEach(([key, value]) => {
-      this.load.image(value, `${value}.png`);
+      this.load.image(value, `assets/images/${value}.png`);
+    });
+
+    Object.entries(Font).forEach(([key, value]) => {
+      this.loadFont(value, `assets/fonts/${value}.ttf`);
     });
   }
 
@@ -28,7 +30,13 @@ export default class BackScene extends Phaser.Scene {
   update() {
     // 배경 이동
     this.sceneManager.backgroundManager.updatePosition();
+  }
 
-    const scenes = this.scene.manager.scenes;
+  // 폰트 로드
+  private loadFont(name: string, url: string) {
+    new FontFace(name, `url(${url})`)
+      .load()
+      .then((loaded) => document.fonts.add(loaded))
+      .catch((error) => error);
   }
 }
