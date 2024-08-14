@@ -15,7 +15,7 @@ export default class OverScene extends Phaser.Scene {
   preload() {}
 
   create() {
-    this.sound.add('gameOver').play();
+    // this.sound.add('gameOver').play();
 
     this.titleText = this.add
       .text(
