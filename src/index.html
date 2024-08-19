@@ -4,6 +4,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>I am Ironman</title>
+    <script>
+      window.onload = () => {
+        // 페이지가 iframe에서 로드되지 않은 경우 접근 제한
+        if (window.top === window.self)
+          document.body.innerHTML = `
+            <div style="display: flex; justify-content: center; height: 100vh; text-align: center;">
+              <div>
+                <h1>접근 금지</h1>
+                <p>이 페이지는 허가된 사이트에서만 접근할 수 있습니다.</p>
+              </div>
+            </div>
+          `;
+      };
+    </script>
     <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon" />
     <style>
       body {
